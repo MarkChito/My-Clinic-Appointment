@@ -58,4 +58,36 @@ class model
             return null;
         }
     }
+
+    function mod_get_useraccount_data($username)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `username` = '" . $username . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+
+    function mod_update_application($status, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_applications` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_applications`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

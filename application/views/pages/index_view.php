@@ -9,81 +9,30 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
 
     exit();
 }
+
+include_once "./application/views/templates/header.php";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="MyClinicAppointment - The fastest way to consult your doctor." />
-    <meta name="author" content="" />
-
-    <title>MyClinicAppointment - The fastest way to consult your doctor.</title>
-
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
-
-    <!-- Bootstrap Icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Google Fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="./assets/css/styles.css" rel="stylesheet" />
-</head>
-
-<body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-xl navbar-light fixed-top shadow-sm" id="mainNav">
-        <div class="container px-5">
-            <a class="navbar-brand fw-bold" href="#page-top">
-                <img class="img-fluid" src="assets/img/logo.png" alt="" width="25px" height="25px">
-                <div class="d-xxl-inline d-xl-inline d-lg-inline d-md-inline d-sm-inline d-none">
-                    <span class="text-danger">My</span><span class="text-primary">Clinic</span><span class="text-success">Appointment</span>
-                </div>
-                <div class="d-inline d-xxl-none d-xl-none d-lg-none d-md-none d-sm-none">
-                    <span class="text-danger">M</span><span class="text-primary">C</span><span class="text-success">A</span>
-                </div>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="bi-list"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#about_us">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#our_team">Our Team</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#our_doctors">Our Doctors</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#how_it_works">How it Works</a></li>
-                    <li class="nav-item"><a class="nav-link me-lg-3" href="#contact_us">Contact Us</a></li>
-                </ul>
-                <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#join_us">
-                    <span class="d-flex align-items-center">
-                        <i class="bi bi-people me-2"></i>
-                        <span class="small">Join Us</span>
-                    </span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
+<?php if (!isset($_SESSION['id'])) : ?>
     <!-- Mashead header-->
     <header class="masthead">
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div class="col-xl-6">
-                    <!-- Mashead text and app badges-->
                     <div class="mb-5 mb-lg-0 text-center text-xl-start">
                         <h1 class="display-1 lh-1 mb-3">The fastest way to consult your doctor.</h1>
                         <p class="lead fw-normal text-muted mb-5">Your health is our priority, and MyClinicAppointment makes it easy anytime, anywhere, and everywhere!</p>
                         <div class="d-flex flex-column flex-xl-row align-items-center">
-                            <button class="btn btn-primary rounded-pill px-3 mb-2 mb-xl-0" data-bs-toggle="modal" data-bs-target="#book_now">
-                                <span class="d-flex align-items-center">
-                                    <i class="bi bi-calendar-plus me-2"></i>
+                            <button class="btn btn-primary rounded-pill mb-2 me-2 mb-xl-0 d-flex justify-content-center align-items-center" style="width: 125px;" data-bs-toggle="modal" data-bs-target="#book_now">
+                                <span class="d-flex align-items-center text-center">
+                                    <i class="fas fa-book me-2"></i>
                                     <span class="small">Book Now</span>
+                                </span>
+                            </button>
+                            <button class="btn btn-primary rounded-pill mb-2 me-2 mb-xl-0 d-flex justify-content-center align-items-center" style="width: 125px;" data-bs-toggle="modal" data-bs-target="#join_us">
+                                <span class="d-flex align-items-center text-center">
+                                    <i class="fas fa-users me-2"></i>
+                                    <span class="small">Join Us</span>
                                 </span>
                             </button>
                         </div>
@@ -91,7 +40,7 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
                 </div>
                 <div class="col-xl-6">
                     <!-- Logo -->
-                    <img src="assets/img/logo.png" alt="..." class="w-100">
+                    <img src="./assets/img/logo.png" alt="..." class="w-100">
                 </div>
             </div>
         </div>
@@ -441,7 +390,7 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
     </section>
 
     <!-- Contact Us -->
-    <section class="bg-light h-auto" id="contact_us">
+    <section class="bg-light" id="contact_us">
         <div class="container px-5">
             <div class="h1 fs-1 text-center text-dark mb-5">Contact Us</div>
 
@@ -468,7 +417,11 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
                 <div class="col-xl-6">
                     <div class="h5 fs-3 text-dark">Visit us in Our Office</div>
                     <div class="mt-3">
-                        <iframe class="w-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.3286187910985!2d121.1390722759424!3d14.750506773387253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397bbe8733338e5%3A0xc845d7b6001522e1!2sColegio%20de%20Montalban!5e0!3m2!1sen!2sph!4v1699791309462!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <?php if (!$isLocalhost) : ?>
+                            <iframe class="w-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.3286187910985!2d121.1390722759424!3d14.750506773387253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397bbe8733338e5%3A0xc845d7b6001522e1!2sColegio%20de%20Montalban!5e0!3m2!1sen!2sph!4v1699791309462!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <?php else : ?>
+                            <img class="img-fluid w-100 h-100" src="./assets/img/map.png" alt="sample map">
+                        <?php endif ?>
                     </div>
                 </div>
             </div>
@@ -488,251 +441,12 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
             </div>
         </div>
     </footer>
-
-    <!-- Join Us Modal -->
-    <div class="modal fade" id="join_us" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                    <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Application Form</h5>
-                    <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body border-0 p-4">
-                    <form id="join_us_form">
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="join_us_first_name" type="text" placeholder="..." required />
-                            <label for="join_us_first_name">First name</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="join_us_last_name" type="text" placeholder="..." required />
-                            <label for="join_us_last_name">Last name</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="join_us_email" type="email" placeholder="..." required />
-                            <label for="join_us_email">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="join_us_mobile_number" type="tel" placeholder="..." required />
-                            <label for="join_us_mobile_number">Mobile number</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" id="join_us_medical_license_number" type="number" placeholder="..." required />
-                            <label for="join_us_medical_license_number">Medical License Number</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" id="book_now_contact_method" required>
-                                <option value="" disabled selected>Choose...</option>
-                                <option value="Internal Medicine">Internal Medicine</option>
-                                <option value="Surgery">Surgery</option>
-                                <option value="Obstetrics and Gynecology">Obstetrics and Gynecology</option>
-                                <option value="Pediatrics">Pediatrics</option>
-                                <option value="Psychiatry">Psychiatry</option>
-                                <option value="Anesthesiology">Anesthesiology</option>
-                                <option value="Radiology">Radiology</option>
-                                <option value="Ophthalmology">Ophthalmology</option>
-                                <option value="Otolaryngology">Otolaryngology</option>
-                                <option value="Emergency Medicine">Emergency Medicine</option>
-                                <option value="Pathology">Pathology</option>
-                                <option value="Neurology">Neurology</option>
-                                <option value="Allergy and Immunology">Allergy and Immunology</option>
-                                <option value="Infectious Disease">Infectious Disease</option>
-                                <option value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation</option>
-                                <option value="Endocrinology">Endocrinology</option>
-                                <option value="Hematology">Hematology</option>
-                                <option value="Oncology">Oncology</option>
-                                <option value="Nuclear Medicine">Nuclear Medicine</option>
-                            </select>
-                            <label for="book_now_contact_method">Specialization</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" id="join_us_message" type="text" placeholder="..." style="height: 10rem" required></textarea>
-                            <label for="join_us_message">Tell me about yourself</label>
-                        </div>
-
-                        <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="submitButton" type="submit">Submit</button></div>
-                    </form>
-                </div>
-            </div>
+<?php else : ?>
+    <section id="our_team" class="bg-light d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="container px-5 text-center">
+            <div class="h1 fs-1 text-muted">You are now in Administrator Page.</div>
         </div>
-    </div>
+    </section>
+<?php endif ?>
 
-    <!-- Book Now Modal -->
-    <div class="modal fade" id="book_now" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                    <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Book Appointment Form</h5>
-                    <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body border-0 p-4">
-                    <form id="book_now_form">
-                        <!-- Personal Information -->
-                        <div class="mb-lg-3 mb-0">
-                            <label class="form-label h5 fs-5">Personal Information</label>
-                            <div class="row mb-lg-3 mb-0">
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="book_now_first_name" type="text" placeholder="..." required />
-                                        <label for="book_now_first_name">First name</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="book_now_last_name" type="text" placeholder="..." required />
-                                        <label for="book_now_last_name">Last name</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="book_now_email" type="email" placeholder="..." required />
-                                        <label for="book_now_email">Email address</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="book_now_mobile_number" type="tel" placeholder="..." required />
-                                        <label for="book_now_mobile_number">Mobile number</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Appointment Details -->
-                        <div class="mb-lg-3 mb-0">
-                            <label class="form-label h5 fs-5">Appointment Details</label>
-                            <div class="row mb-lg-3 mb-0">
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="book_now_appointment_date" type="datetime-local" required />
-                                        <label for="book_now_appointment_date">Appointment Date</label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="book_now_contact_method" required>
-                                            <option value="" disabled selected>Choose...</option>
-                                            <option value="Video Call">Video Call</option>
-                                            <option value="Phone Call">Phone Call</option>
-                                            <option value="Email">Email</option>
-                                            <option value="SMS">SMS</option>
-                                        </select>
-                                        <label for="book_now_contact_method">How do you like to be contacted</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-lg-3 mb-0">
-                                <div class="col-12 mb-lg-0 mb-3">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="book_now_checkup_concerns" style="height: 10rem;" placeholder="..." required></textarea>
-                                        <label for="book_now_checkup_concerns">Reason/s for arranging this appointment</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Payment Options -->
-                        <div class="mb-3">
-                            <label class="form-label h5 fs-5">Payment Method</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment_option" id="payment_gcash" value="gcash" required />
-                                <label class="form-check-label" for="payment_gcash">
-                                    GCash
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment_option" id="payment_paymaya" value="paymaya" required />
-                                <label class="form-check-label" for="payment_paymaya">
-                                    PayMaya
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment_option" id="payment_credit_card" value="credit_card" required />
-                                <label class="form-check-label" for="payment_credit_card">
-                                    Credit Card or Visa/Mastercard
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="payment_option" id="payment_paypal" value="paypal" required />
-                                <label class="form-check-label" for="payment_paypal">
-                                    Paypal
-                                </label>
-                            </div>
-                        </div>
-                        <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="book_now_submitButton" type="submit">Submit</button></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Doctor Modal -->
-    <div class="modal fade" id="doctor" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                    <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Who is <span id="about_doctor_name"></span>?</h5>
-                    <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body border-0 p-4">
-                    <div class="card">
-                        <div class="card-header bg-gradient-primary-to-secondary text-center">
-                            <img id="doctor_image" class="rounded-circle border bg-light" alt="Doctor 1" width="200px" height="200px">
-                        </div>
-                        <div class="card-body">
-                            <h3 id="doctor_name" class="font-alt text-center"></h3>
-                            <p id="doctor_description" class=""></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JS -->
-    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- JQuery -->
-    <script src="./plugins/jquery/js/jquery.min.js"></script>
-    <!-- SweetAlert -->
-    <script src="./plugins/sweetalert/js/sweetalert2@11.js"></script>
-    <!-- Core theme JS -->
-    <script src="./assets/js/scripts.js"></script>
-
-    <!-- Custom Scripts -->
-    <script>
-        $(document).ready(function() {
-            var error = <?= isset($_SESSION['error']) ? json_encode($_SESSION['error']) : json_encode(array()) ?>;
-            
-            if (error.length != 0) {
-                sweetalert(error);
-            }
-
-            $(".btn_see_more").click(function() {
-                var parent_card = $(this).parent("div").parent("div");
-
-                var doctor_image = parent_card.children("div").children("img").attr("src");
-                var doctor_name = parent_card.children("div").children("h3").text();
-                var doctor_description = parent_card.children("div").children("p").text();
-
-                $("#about_doctor_name").text(doctor_name);
-                $("#doctor_image").attr("src", doctor_image);
-                $("#doctor_name").text(doctor_name);
-                $("#doctor_description").text(doctor_description);
-            })
-
-            function sweetalert(data) {
-                Swal.fire({
-                    title: data.error_title,
-                    text: data.error_message,
-                    icon: data.error_type
-                });
-            }
-        })
-    </script>
-</body>
-
-</html>
-
-<?php unset($_SESSION['error']) ?>
+<?php include_once "./application/views/templates/footer.php"; ?>
