@@ -442,6 +442,7 @@ include_once "./application/views/templates/header.php";
         </div>
     </footer>
 <?php else : ?>
+    <!-- Admin Interface -->
     <section id="our_team" class="bg-light d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="container px-5 text-center">
             <div class="h1 fs-1 text-muted">You are now in Administrator Page.</div>

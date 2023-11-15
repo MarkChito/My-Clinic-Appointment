@@ -7,29 +7,29 @@
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
-                <form id="join_us_form">
+                <form id="join_us_form" action="javascript:void(0)">
                     <div class="form-floating mb-3">
                         <input class="form-control" id="join_us_first_name" type="text" placeholder="..." required />
-                        <label for="join_us_first_name">First name</label>
+                        <label for="join_us_first_name">First Name</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="join_us_last_name" type="text" placeholder="..." required />
-                        <label for="join_us_last_name">Last name</label>
+                        <label for="join_us_last_name">Last Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" id="join_us_email" type="email" placeholder="..." required />
-                        <label for="join_us_email">Email address</label>
+                        <input class="form-control" id="join_us_email_address" type="email" placeholder="..." required />
+                        <label for="join_us_email_address">Email Address</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="join_us_mobile_number" type="tel" placeholder="..." required />
-                        <label for="join_us_mobile_number">Mobile number</label>
+                        <label for="join_us_mobile_number">Mobile Number</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="join_us_medical_license_number" type="number" placeholder="..." required />
                         <label for="join_us_medical_license_number">Medical License Number</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="book_now_specialization" required>
+                        <select class="form-select" id="join_us_specialization" required>
                             <option value="" disabled selected>Choose...</option>
                             <option value="Internal Medicine">Internal Medicine</option>
                             <option value="Surgery">Surgery</option>
@@ -51,14 +51,16 @@
                             <option value="Oncology">Oncology</option>
                             <option value="Nuclear Medicine">Nuclear Medicine</option>
                         </select>
-                        <label for="book_now_specialization">Specialization</label>
+                        <label for="join_us_specialization">Specialization</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" id="join_us_message" type="text" placeholder="..." style="height: 10rem" required></textarea>
-                        <label for="join_us_message">Tell me about yourself</label>
+                        <textarea class="form-control" id="join_us_description" type="text" placeholder="..." style="height: 10rem" required></textarea>
+                        <label for="join_us_description">Tell me about yourself</label>
                     </div>
 
-                    <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="submitButton" type="submit">Submit</button></div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary rounded-pill btn-lg" id="join_us_submit" type="submit">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -358,6 +360,54 @@
 
             $("#login_submit").attr("disabled", true);
             $("#login_submit").text("Processing Request...");
+
+            $.ajax({
+                url: './application/controllers/controller.php',
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
+        $("#join_us_form").submit(function() {
+            var first_name = $("#join_us_first_name");
+            var last_name = $("#join_us_last_name");
+            var email_address = $("#join_us_email_address");
+            var mobile_number = $("#join_us_mobile_number");
+            var medical_license_number = $("#join_us_medical_license_number");
+            var specialization = $("#join_us_specialization");
+            var description = $("#join_us_description");
+            var submit = $("#join_us_submit");
+
+            var formData = new FormData();
+
+            formData.append('first_name', first_name.val());
+            formData.append('last_name', last_name.val());
+            formData.append('email_address', email_address.val());
+            formData.append('mobile_number', mobile_number.val());
+            formData.append('medical_license_number', medical_license_number.val());
+            formData.append('specialization', specialization.val());
+            formData.append('description', description.val());
+            formData.append('join_us', true);
+
+            first_name.attr("disabled", true);
+            last_name.attr("disabled", true);
+            email_address.attr("disabled", true);
+            mobile_number.attr("disabled", true);
+            medical_license_number.attr("disabled", true);
+            specialization.attr("disabled", true);
+            description.attr("disabled", true);
+
+            submit.attr("disabled", true);
+            submit.text("Processing Request...");
 
             $.ajax({
                 url: './application/controllers/controller.php',

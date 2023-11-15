@@ -15,7 +15,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'localhos
     <meta name="description" content="MyClinicAppointment - The fastest way to consult your doctor." />
     <meta name="author" content="" />
 
-    <title>MyClinicAppointment - The fastest way to consult your doctor.</title>
+    <title>MyClinicAppointment - <?= isset($_SESSION['title']) ? $_SESSION['title'] : 'The fastest way to consult your doctor.' ?></title>
 
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
 

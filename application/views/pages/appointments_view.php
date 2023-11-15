@@ -15,7 +15,7 @@ include_once "./application/views/templates/header.php";
 
 <section id="our_team" class="mt-5">
     <div class="container px-5">
-        <h2 class="mb-4">Applications</h2>
+        <h2 class="mb-4">Appointments</h2>
         <table id="applications_table" class="table table-striped w-100 border">
             <thead>
                 <tr>
@@ -23,19 +23,19 @@ include_once "./application/views/templates/header.php";
                     <th>First Name</th>
                     <th>Email Address</th>
                     <th>Mobile Number</th>
-                    <th>Medical License Number</th>
-                    <th>Specialization</th>
+                    <th>Appointment Date</th>
+                    <th>Contact Method</th>
                     <th class="d-none">Description</th>
                     <th>Status</th>
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $applications = $controller->get_applications_data() ?>
-                <?php if ($applications) : ?>
-                    <?php foreach ($applications as $application) : ?>
+                <?php $appointments = $controller->get_appointments_data() ?>
+                <?php if ($appointments) : ?>
+                    <?php foreach ($appointments as $appointment) : ?>
                         <?php
-                        $status = $application->status;
+                        $status = $appointment->status;
                         $badge_color = null;
 
                         switch ($status) {
@@ -58,21 +58,21 @@ include_once "./application/views/templates/header.php";
 
                         <tr>
                             <td class="first_name">
-                                <a title="View Details" href="javascript:void(0)"><?= $application->last_name ?></a>
+                                <a title="View Details" href="javascript:void(0)"><?= $appointment->last_name ?></a>
                             </td>
-                            <td class="last_name"><?= $application->first_name ?></td>
-                            <td class="email_address"><?= $application->email_address ?></td>
-                            <td class="mobile_number"><?= $application->mobile_number ?></td>
-                            <td class="medical_license_number"><?= $application->medical_license_number ?></td>
-                            <td class="specialization"><?= $application->specialization ?></td>
-                            <td class="description d-none"><?= $application->description ?></td>
+                            <td class="last_name"><?= $appointment->first_name ?></td>
+                            <td class="email_address"><?= $appointment->email_address ?></td>
+                            <td class="mobile_number"><?= $appointment->mobile_number ?></td>
+                            <td class="appointment_date"><?= $appointment->appointment_date ?></td>
+                            <td class="contact_method"><?= $appointment->contact_method ?></td>
+                            <td class="description d-none"><?= $appointment->description ?></td>
                             <td class="status">
                                 <span class="badge rounded-pill bg-<?= $badge_color ?>"><?= $status ?></span>
                             </td>
                             <td class="text-center">
                                 <div class="approve_reject_btn">
-                                    <i title="Approve Application" application_id="<?= $application->id ?>" class="<?= $status == 'Pending' ? 'btn_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
-                                    <i title="Reject Application" application_id="<?= $application->id ?>" class="<?= $status == 'Pending' ? 'btn_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                    <i title="Approve Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                    <i title="Reject Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
                                 </div>
                                 <div class="d-none small_loader">
                                     <span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>

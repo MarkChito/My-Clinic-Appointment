@@ -58,6 +58,26 @@ class model
             return null;
         }
     }
+    
+    function mod_get_appointments_data()
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_appointments`";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
 
     function mod_get_useraccount_data($username)
     {
@@ -82,6 +102,18 @@ class model
     function mod_update_application($status, $id)
     {
         $query = "UPDATE `tbl_myclinicappointment_applications` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_applications`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_add_application($first_name, $last_name, $email_address, $mobile_number, $medical_license_number, $specialization, $description)
+    {
+        $query = "INSERT INTO `tbl_myclinicappointment_applications` (`id`, `first_name`, `last_name`, `email_address`, `mobile_number`, `medical_license_number`, `specialization`, `description`, `status`) VALUES (NULL, '". $first_name ."', '". $last_name ."', '". $email_address ."', '". $mobile_number ."', '". $medical_license_number ."', '". $specialization ."', '". $description ."', 'Pending')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {

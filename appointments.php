@@ -18,8 +18,8 @@ if (!isset($_SESSION['id']))
 
 require_once "./application/controllers/controller.php";
 
-$_SESSION['title'] = "Applications";
-$_SESSION['current_page'] = "applications";
+$_SESSION['title'] = "Appointments";
+$_SESSION['current_page'] = "appointments";
 
 // This is your View Page
-require_once "./application/views/pages/applications_view.php";
+require_once "./application/views/pages/appointments_view.php";

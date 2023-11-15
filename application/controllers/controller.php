@@ -38,6 +38,10 @@ class controller
             if (isset($_POST['update_application'])) {
                 $this->update_application();
             }
+            
+            if (isset($_POST['join_us'])) {
+                $this->join_us();
+            }
         }
     }
 
@@ -46,6 +50,13 @@ class controller
         $applications = $this->model->mod_get_application_data();
 
         return $applications;
+    }
+    
+    function get_appointments_data()
+    {
+        $appointments = $this->model->mod_get_appointments_data();
+
+        return $appointments;
     }
 
     function login()
@@ -119,6 +130,35 @@ class controller
                 "error_type" => "success",
                 "error_title" => "Success",
                 "error_message" => "Application " . $status . "!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "There is an error while processing your request."
+            );
+        }
+
+        echo json_encode(true);
+    }
+    
+    function join_us()
+    {
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $email_address = $_POST['email_address'];
+        $mobile_number = $_POST['mobile_number'];
+        $medical_license_number = $_POST['medical_license_number'];
+        $specialization = $_POST['specialization'];
+        $description = $_POST['description'];
+
+        $added = $this->model->mod_add_application($first_name, $last_name,$email_address, $mobile_number, $medical_license_number, $specialization, $description);
+
+        if ($added) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Application is added to the Database!"
             );
         } else {
             $_SESSION['error'] = array(
