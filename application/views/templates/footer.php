@@ -76,10 +76,10 @@
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
-                <form id="book_now_form">
+                <form id="book_now_form" action="javascript:void(0)">
                     <!-- Personal Information -->
                     <div class="mb-lg-3 mb-0">
-                        <label class="form-label h5 fs-5">Personal Information</label>
+                        <p class="h5 fs-5">Personal Information</p>
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
@@ -97,8 +97,8 @@
                         <div class="row">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
-                                    <input class="form-control" id="book_now_email" type="email" placeholder="..." required />
-                                    <label for="book_now_email">Email address</label>
+                                    <input class="form-control" id="book_now_email_address" type="email" placeholder="..." required />
+                                    <label for="book_now_email_address">Email address</label>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
@@ -111,7 +111,7 @@
                     </div>
                     <!-- Appointment Details -->
                     <div class="mb-lg-3 mb-0">
-                        <label class="form-label h5 fs-5">Appointment Details</label>
+                        <p class="h5 fs-5">Appointment Details</p>
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
@@ -135,41 +135,41 @@
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
-                                    <textarea class="form-control" id="book_now_checkup_concerns" style="height: 10rem;" placeholder="..." required></textarea>
-                                    <label for="book_now_checkup_concerns">Reason/s for arranging this appointment</label>
+                                    <textarea class="form-control" id="book_now_reasons" style="height: 10rem;" placeholder="..." required></textarea>
+                                    <label for="book_now_reasons">Reason/s for arranging this appointment</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Payment Options -->
                     <div class="mb-3">
-                        <label class="form-label h5 fs-5">Payment Method</label>
+                        <p class="h5 fs-5">Payment Method</p>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_gcash" value="gcash" required />
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_gcash" value="Gcash" required />
                             <label class="form-check-label" for="payment_gcash">
                                 GCash
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_paymaya" value="paymaya" required />
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_paymaya" value="Paymaya" required />
                             <label class="form-check-label" for="payment_paymaya">
                                 PayMaya
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_credit_card" value="credit_card" required />
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_credit_card" value="Credit Card or Visa/Mastercard" required />
                             <label class="form-check-label" for="payment_credit_card">
                                 Credit Card or Visa/Mastercard
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_paypal" value="paypal" required />
+                            <input class="form-check-input" type="radio" name="payment_method" id="payment_paypal" value="Paypal" required />
                             <label class="form-check-label" for="payment_paypal">
                                 Paypal
                             </label>
                         </div>
                     </div>
-                    <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="book_now_submitButton" type="submit">Submit</button></div>
+                    <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="book_now_submit" type="submit">Submit</button></div>
                 </form>
             </div>
         </div>
@@ -425,12 +425,184 @@
             });
         })
 
+        $(".btn_appointments_approve").click(function() {
+            var parent_td = $(this).parent("div").parent("td");
+            var approve_reject_btn = parent_td.find(".approve_reject_btn");
+            var small_loader = parent_td.find(".small_loader");
+
+            approve_reject_btn.addClass("d-none");
+            small_loader.removeClass("d-none");
+
+            var id = $(this).attr("application_id");
+
+            var formData = new FormData();
+
+            formData.append('id', id);
+            formData.append('status', 'Approved');
+            formData.append('update_appointment', true);
+
+            $.ajax({
+                url: './application/controllers/controller.php',
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./appointments";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
+        $(".btn_appointments_reject").click(function() {
+            var parent_td = $(this).parent("div").parent("td");
+            var approve_reject_btn = parent_td.find(".approve_reject_btn");
+            var small_loader = parent_td.find(".small_loader");
+
+            approve_reject_btn.addClass("d-none");
+            small_loader.removeClass("d-none");
+
+            var id = $(this).attr("application_id");
+
+            var formData = new FormData();
+
+            formData.append('id', id);
+            formData.append('status', 'Rejected');
+            formData.append('update_appointment', true);
+
+            $.ajax({
+                url: './application/controllers/controller.php',
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./appointments";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
+        $("#book_now_form").submit(function() {
+            var first_name = $("#book_now_first_name");
+            var last_name = $("#book_now_last_name");
+            var email_address = $("#book_now_email_address");
+            var mobile_number = $("#book_now_mobile_number");
+            var appointment_date = $("#book_now_appointment_date");
+            var contact_method = $("#book_now_contact_method");
+            var payment_method = $("input[name='payment_method']");
+            var reasons = $("#book_now_reasons");
+            var submit = $("#book_now_submit");
+
+            var formData = new FormData();
+
+            formData.append('first_name', first_name.val());
+            formData.append('last_name', last_name.val());
+            formData.append('email_address', email_address.val());
+            formData.append('mobile_number', mobile_number.val());
+            formData.append('appointment_date', formatDate(appointment_date.val()));
+            formData.append('contact_method', contact_method.val());
+            formData.append('reasons', reasons.val());
+            formData.append('payment_method', $("input[name='payment_method']:checked").val());
+            formData.append('book_now', true);
+
+            first_name.attr("disabled", true);
+            last_name.attr("disabled", true);
+            email_address.attr("disabled", true);
+            mobile_number.attr("disabled", true);
+            appointment_date.attr("disabled", true);
+            contact_method.attr("disabled", true);
+            payment_method.attr("disabled", true);
+            reasons.attr("disabled", true);
+
+            submit.attr("disabled", true);
+            submit.text("Processing Request...");
+
+            $.ajax({
+                url: './application/controllers/controller.php',
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+        
+        $("#contact_us_form").submit(function() {
+            var name = $("#contact_us_name");
+            var email = $("#contact_us_email");
+            var message = $("#contact_us_message");
+            var submit = $("#contact_us_submit");
+
+            var formData = new FormData();
+
+            formData.append('name', name.val());
+            formData.append('email', email.val());
+            formData.append('message', message.val());
+            formData.append('contact_us', true);
+
+            name.attr("disabled", true);
+            email.attr("disabled", true);
+            message.attr("disabled", true);
+
+            submit.attr("disabled", true);
+            submit.text("Processing Request...");
+
+            $.ajax({
+                url: './application/controllers/controller.php',
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
         function sweetalert(data) {
             Swal.fire({
                 title: data.error_title,
                 text: data.error_message,
                 icon: data.error_type
             });
+        }
+
+        function formatDate(inputDate) {
+            const months = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+
+            const date = new Date(inputDate);
+            const monthName = months[date.getMonth()];
+            const day = date.getDate();
+            const year = date.getFullYear();
+            let hours = date.getHours();
+            const minutes = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+            const amOrPm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert hours to 12-hour format
+            hours = hours % 12 || 12;
+
+            const formattedDate = `${monthName} ${day}, ${year} ${hours}:${minutes} ${amOrPm}`;
+            return formattedDate;
         }
     })
 </script>

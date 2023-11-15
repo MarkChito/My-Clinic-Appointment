@@ -397,20 +397,20 @@ include_once "./application/views/templates/header.php";
             <div class="row gx-3 justify-content-center">
                 <div class="col-xl-6 mb-5">
                     <div class="h5 fs-3 text-dark">Send us a Message</div>
-                    <form>
+                    <form id="contact_us_form" action="javascript:void(0)">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Your Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                            <label for="contact_us_name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="contact_us_name" placeholder="Enter your name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Your Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            <label for="contact_us_email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="contact_us_email" placeholder="Enter your email" required>
                         </div>
                         <div class="mb-3">
-                            <label for="message" class="form-label">Your Message</label>
-                            <textarea class="form-control" id="message" rows="8" placeholder="Type your message here" required></textarea>
+                            <label for="contact_us_message" class="form-label">Your Message</label>
+                            <textarea class="form-control" id="contact_us_message" rows="8" placeholder="Type your message here" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="submit" class="btn btn-primary" id="contact_us_submit">Send Message</button>
                     </form>
                 </div>
 

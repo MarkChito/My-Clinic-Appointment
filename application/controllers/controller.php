@@ -39,8 +39,20 @@ class controller
                 $this->update_application();
             }
             
+            if (isset($_POST['update_appointment'])) {
+                $this->update_appointment();
+            }
+            
             if (isset($_POST['join_us'])) {
                 $this->join_us();
+            }
+            
+            if (isset($_POST['book_now'])) {
+                $this->book_now();
+            }
+            
+            if (isset($_POST['contact_us'])) {
+                $this->contact_us();
             }
         }
     }
@@ -57,6 +69,13 @@ class controller
         $appointments = $this->model->mod_get_appointments_data();
 
         return $appointments;
+    }
+    
+    function get_messages_data()
+    {
+        $messages = $this->model->mod_get_messages_data();
+
+        return $messages;
     }
 
     function login()
@@ -142,6 +161,30 @@ class controller
         echo json_encode(true);
     }
     
+    function update_appointment()
+    {
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+
+        $updated = $this->model->mod_update_appointment($status, $id);
+
+        if ($updated) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Appointment " . $status . "!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "There is an error while processing your request."
+            );
+        }
+
+        echo json_encode(true);
+    }
+    
     function join_us()
     {
         $first_name = $_POST['first_name'];
@@ -159,6 +202,61 @@ class controller
                 "error_type" => "success",
                 "error_title" => "Success",
                 "error_message" => "Application is added to the Database!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "There is an error while processing your request."
+            );
+        }
+
+        echo json_encode(true);
+    }
+    
+    function book_now()
+    {
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $email_address = $_POST['email_address'];
+        $mobile_number = $_POST['mobile_number'];
+        $appointment_date = $_POST['appointment_date'];
+        $contact_method = $_POST['contact_method'];
+        $reasons = $_POST['reasons'];
+        $payment_method = $_POST['payment_method'];
+
+        $added = $this->model->mod_add_appointment($first_name, $last_name,$email_address, $mobile_number, $appointment_date, $contact_method, $reasons ,$payment_method);
+
+        if ($added) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Application is added to the Database!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "There is an error while processing your request."
+            );
+        }
+
+        echo json_encode(true);
+    }
+    
+    function contact_us()
+    {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $message = $_POST['message'];
+
+        $added = $this->model->mod_add_message($name, $email, $message);
+
+        if ($added) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Your message has been submitted successfully!"
             );
         } else {
             $_SESSION['error'] = array(
