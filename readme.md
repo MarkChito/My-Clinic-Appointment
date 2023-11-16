@@ -16,19 +16,35 @@ This project is a simple PHP landing page designed for MyClinicAppointment, demo
 
 4. Open your web browser and navigate to `http://localhost/project-folder-name/`, replacing `project-folder-name` with the name of the directory where you placed the project files.
 
+## PHPMyAdmin
+
+### User Account Setup
+
+1. Open your favorite web browser and type `http://localhost/phpmyadmin/` to locate your PHPMyAdmin Page. 
+
+2. Click `User Accounts` tab, then click `Add user account`. Input the corresponding details:
+   - User name: `all_system_user`
+   - Host name: `%`
+   - Password: `admin123`
+   - Re-type: `admin123`
+
+3. On the `Global privileges`, click `Check all`, then click `Go`.
+
+### Database Setup
+
+1. Create a database named `all_system_database`.
+
+2. Click `Import` tab, then on the `Choose File` input, select the [SQL Tables](all_system_database) and click `Import` on the very bottom part.
+
 ## Usage
 
 1. Access the landing page:
    - Open your web browser and go to `http://localhost/project-folder-name/`.
    - You should see the landing page for MyClinicAppointment.
 
-## Customization
-
-You can customize this project by:
-
-- Modifying the design and layout of the landing page (`index.php`).
-- Adding more sections or features to enhance user experience.
-- Adapting it for a production environment with additional functionalities.
+2. To access the `Administrator Page`, click `Login`. Put the corresponding details:
+   - Username: `admin`
+   - Password: `admin123`
 
 ## License
 
