@@ -20,7 +20,7 @@ This project is a simple PHP landing page designed for MyClinicAppointment, demo
 
 ### User Account Setup
 
-1. Open your favorite web browser and type `http://localhost/phpmyadmin/` to locate your PHPMyAdmin Page. 
+1. Open your favorite web browser and type `http://localhost/phpmyadmin/` to locate your phpMyAdmin Page. 
 
 2. Click `User Accounts` tab, then click `Add user account`. Input the corresponding details:
    - User name: `all_system_user`
