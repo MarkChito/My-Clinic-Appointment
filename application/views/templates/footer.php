@@ -196,7 +196,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -231,6 +231,181 @@
                         <button class="btn btn-primary rounded-pill btn-lg" id="login_submit" type="submit">Login</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Application Details Modal -->
+<div class="modal fade" id="application_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Application Details</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>First Name:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_first_name"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Last Name:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_last_name"></span>
+                    </div>
+                </div>
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Email Address:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_email_address"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Mobile Number:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_mobile_number"></span>
+                    </div>
+                </div>
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Medical License Number:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_medical_license_number"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Specialization:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="application_details_specialization"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <strong>Description:</strong>
+                        <textarea id="application_details_description" class="form-control" rows="5" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Details Modal -->
+<div class="modal fade" id="appointment_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Appointment Details</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>First Name:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_first_name"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Last Name:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_last_name"></span>
+                    </div>
+                </div>
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Email Address:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_email_address"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Mobile Number:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_mobile_number"></span>
+                    </div>
+                </div>
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Appointment Date:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_appointment_date"></span>
+                    </div>
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Contact Method:</strong>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_contact_method"></span>
+                    </div>
+                </div>
+                <div class="row mb-xl-3 mb-0">
+                    <div class="col-xl-2 col-md-6 col-12">
+                        <strong>Payment Method:</strong>
+                    </div>
+                    <div class="col-xl-10 col-md-6 col-12 mb-xl-0 mb-3">
+                        <span id="appointment_details_payment_method"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <strong>Reasons:</strong>
+                        <textarea id="appointment_details_reasons" class="form-control" rows="5" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Details Modal -->
+<div class="modal fade" id="message_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Message Details</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4" id="applicant_details">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <strong>Name:</strong>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-3">
+                        <span id="message_details_name"></span>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <strong>Email Address:</strong>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-3">
+                        <span id="message_details_email"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <strong>Message:</strong>
+                        <textarea id="message_details_message" class="form-control" rows="5" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -539,7 +714,7 @@
                 }
             });
         })
-        
+
         $("#contact_us_form").submit(function() {
             var name = $("#contact_us_name");
             var email = $("#contact_us_email");
@@ -576,13 +751,56 @@
             });
         })
 
-        function sweetalert(data) {
-            Swal.fire({
-                title: data.error_title,
-                text: data.error_message,
-                icon: data.error_type
-            });
-        }
+        $(".view_application_details").click(function() {
+            var parent_tr = $(this).parent("td").parent("tr");
+            var last_name = parent_tr.children("td.last_name").children("a").text();
+            var first_name = parent_tr.children("td.first_name").text();
+            var email_address = parent_tr.children("td.email_address").text();
+            var mobile_number = parent_tr.children("td.mobile_number").text();
+            var medical_license_number = parent_tr.children("td.medical_license_number").text();
+            var specialization = parent_tr.children("td.specialization").text();
+            var description = parent_tr.children("td.description").text();
+
+            $("#application_details_first_name").text(first_name);
+            $("#application_details_last_name").text(last_name);
+            $("#application_details_email_address").text(email_address);
+            $("#application_details_mobile_number").text(mobile_number);
+            $("#application_details_medical_license_number").text(medical_license_number);
+            $("#application_details_specialization").text(specialization);
+            $("#application_details_description").text(description);
+        })
+
+        $(".view_appointment_details").click(function() {
+            var parent_tr = $(this).parent("td").parent("tr");
+            var last_name = parent_tr.children("td.last_name").children("a").text();
+            var first_name = parent_tr.children("td.first_name").text();
+            var email_address = parent_tr.children("td.email_address").text();
+            var mobile_number = parent_tr.children("td.mobile_number").text();
+            var appointment_date = parent_tr.children("td.appointment_date").text();
+            var contact_method = parent_tr.children("td.contact_method").text();
+            var reasons = parent_tr.children("td.reasons").text();
+            var payment_method = parent_tr.children("td.payment_method").text();
+
+            $("#appointment_details_first_name").text(first_name);
+            $("#appointment_details_last_name").text(last_name);
+            $("#appointment_details_email_address").text(email_address);
+            $("#appointment_details_mobile_number").text(mobile_number);
+            $("#appointment_details_appointment_date").text(appointment_date);
+            $("#appointment_details_contact_method").text(contact_method);
+            $("#appointment_details_reasons").text(reasons);
+            $("#appointment_details_payment_method").text(payment_method);
+        })
+
+        $(".view_message_details").click(function() {
+            var parent_tr = $(this).parent("td").parent("tr");
+            var name = parent_tr.children("td.name").children("a").text();
+            var email = parent_tr.children("td.email").text();
+            var message = parent_tr.children("td.message").text();
+
+            $("#message_details_name").text(name);
+            $("#message_details_email").text(email);
+            $("#message_details_message").text(message);
+        })
 
         function formatDate(inputDate) {
             const months = [
@@ -603,6 +821,14 @@
 
             const formattedDate = `${monthName} ${day}, ${year} ${hours}:${minutes} ${amOrPm}`;
             return formattedDate;
+        }
+
+        function sweetalert(data) {
+            Swal.fire({
+                title: data.error_title,
+                text: data.error_message,
+                icon: data.error_type
+            });
         }
     })
 </script>

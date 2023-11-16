@@ -30,7 +30,9 @@ include_once "./application/views/templates/header.php";
                     <?php foreach ($messages as $message) : ?>
                         <tr>
                             <td class="name">
-                                <a title="View Details" href="javascript:void(0)"><?= $message->name ?></a>
+                                <a title="View Details" href="javascript:void(0)" class="view_message_details" data-bs-toggle="modal" data-bs-target="#message_details">
+                                    <?= $message->name ?>
+                                </a>
                             </td>
                             <td class="email"><?= $message->email ?></td>
                             <td class="message text-truncate"><?= $message->message ?></td>                

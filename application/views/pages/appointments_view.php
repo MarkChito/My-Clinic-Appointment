@@ -25,7 +25,8 @@ include_once "./application/views/templates/header.php";
                     <th>Mobile Number</th>
                     <th>Appointment Date</th>
                     <th>Contact Method</th>
-                    <th class="d-none">Description</th>
+                    <th class="d-none">Reasons</th>
+                    <th class="d-none">Payment Method</th>
                     <th>Status</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -57,15 +58,18 @@ include_once "./application/views/templates/header.php";
                         ?>
 
                         <tr>
-                            <td class="first_name">
-                                <a title="View Details" href="javascript:void(0)"><?= $appointment->last_name ?></a>
+                            <td class="last_name">
+                                <a title="View Details" href="javascript:void(0)" class="view_appointment_details" data-bs-toggle="modal" data-bs-target="#appointment_details">
+                                    <?= $appointment->last_name ?>
+                                </a>
                             </td>
-                            <td class="last_name"><?= $appointment->first_name ?></td>
+                            <td class="first_name"><?= $appointment->first_name ?></td>
                             <td class="email_address"><?= $appointment->email_address ?></td>
                             <td class="mobile_number"><?= $appointment->mobile_number ?></td>
                             <td class="appointment_date"><?= $appointment->appointment_date ?></td>
                             <td class="contact_method"><?= $appointment->contact_method ?></td>
-                            <td class="description d-none"><?= $appointment->description ?></td>
+                            <td class="reasons d-none"><?= $appointment->reasons ?></td>
+                            <td class="payment_method d-none"><?= $appointment->payment_method ?></td>
                             <td class="status">
                                 <span class="badge rounded-pill bg-<?= $badge_color ?>"><?= $status ?></span>
                             </td>

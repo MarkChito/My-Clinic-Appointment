@@ -57,10 +57,12 @@ include_once "./application/views/templates/header.php";
                         ?>
 
                         <tr>
-                            <td class="first_name">
-                                <a title="View Details" href="javascript:void(0)"><?= $application->last_name ?></a>
+                            <td class="last_name">
+                                <a title="View Details" href="javascript:void(0)" class="view_application_details" data-bs-toggle="modal" data-bs-target="#application_details">
+                                    <?= $application->last_name ?>
+                                </a>
                             </td>
-                            <td class="last_name"><?= $application->first_name ?></td>
+                            <td class="first_name"><?= $application->first_name ?></td>
                             <td class="email_address"><?= $application->email_address ?></td>
                             <td class="mobile_number"><?= $application->mobile_number ?></td>
                             <td class="medical_license_number"><?= $application->medical_license_number ?></td>
