@@ -34,7 +34,7 @@ This project is a simple PHP landing page designed for MyClinicAppointment, demo
 
 1. Create a database named `all_system_database`.
 
-2. Click `Import` tab, then on the `Choose File` input, select the [SQL Tables](all_system_database.sql) and click `Import` on the very bottom part.
+2. Click `Import` tab, then on the `Choose File` input, select the [all_system_database.sql](all_system_database.sql) and click `Import` on the very bottom part.
 
 ## Usage
 
