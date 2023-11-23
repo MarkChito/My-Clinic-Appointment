@@ -19,8 +19,8 @@ class model
     function __construct()
     {
         $servername = "localhost";
-        $username = "all_system_user";
-        $password = "admin123";
+        $username = "root";
+        $password = "";
         $database = "all_system_database";
 
         $mysqli = new mysqli($servername, $username, $password, $database);
@@ -176,6 +176,26 @@ class model
             return true;
         } else {
             return false;
+        }
+    }
+
+    function mod_get_administrators_data()
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` ";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
         }
     }
 }

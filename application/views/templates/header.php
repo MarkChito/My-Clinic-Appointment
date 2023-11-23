@@ -61,6 +61,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'localhos
                     </button>
                 <?php else : ?>
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'administrators' ? 'active' : null ?>" href="administrators">Administrators</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'applications' ? 'active' : null ?>" href="applications">Applications</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'appointments' ? 'active' : null ?>" href="appointments">Appointments</a></li>
                         <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'messages' ? 'active' : null ?>" href="messages">Messages</a></li>
