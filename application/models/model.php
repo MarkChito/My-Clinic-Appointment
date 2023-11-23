@@ -78,7 +78,7 @@ class model
             return null;
         }
     }
-    
+
     function mod_get_messages_data()
     {
         $query = "SELECT * FROM `tbl_myclinicappointment_messages`";
@@ -119,27 +119,23 @@ class model
         }
     }
 
-    function mod_update_application($status, $id)
+    function mod_get_administrators_data()
     {
-        $query = "UPDATE `tbl_myclinicappointment_applications` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_applications`.`id` = '" . $id . "'";
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `id` != '" . $_SESSION['id'] . "'";
         $query_result = $this->mysqli->query($query);
 
-        if ($query_result && $this->mysqli->affected_rows > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        if ($query_result) {
+            $results = array();
 
-    function mod_update_appointment($status, $id)
-    {
-        $query = "UPDATE `tbl_myclinicappointment_appointments` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_appointments`.`id` = '" . $id . "'";
-        $query_result = $this->mysqli->query($query);
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
 
-        if ($query_result && $this->mysqli->affected_rows > 0) {
-            return true;
+            $query_result->close();
+
+            return $results;
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -179,23 +175,51 @@ class model
         }
     }
 
-    function mod_get_administrators_data()
+    function mod_add_new_admin($name, $username, $password, $image)
     {
-        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` ";
+        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'admin')";
         $query_result = $this->mysqli->query($query);
 
-        if ($query_result) {
-            $results = array();
-
-            while ($row = $query_result->fetch_assoc()) {
-                $results[] = (object) $row;
-            }
-
-            $query_result->close();
-
-            return $results;
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
         } else {
-            return null;
+            return false;
+        }
+    }
+
+    function mod_update_application($status, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_applications` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_applications`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_appointment($status, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_appointments` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_appointments`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_delete_admin($id)
+    {
+        $query = "DELETE FROM `tbl_myclinicappointment_useraccounts` WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -17,7 +17,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'localhos
 
     <title>MyClinicAppointment - <?= isset($_SESSION['title']) ? $_SESSION['title'] : 'The fastest way to consult your doctor.' ?></title>
 
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
 
     <!-- Core theme CSS (includes Bootstrap) -->
     <link href="./plugins/datatables/css/dataTables.bootstrap5.min.css" rel="stylesheet" />

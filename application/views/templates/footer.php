@@ -411,30 +411,35 @@
     </div>
 </div>
 
-<!-- Admins Modal -->
+<!-- Admin Modal -->
 <div class="modal fade" id="admin_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Who is <span id="admin_about_name"></span>?</h5>
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Administrator Details</h5>
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
                 <div class="card">
                     <div class="card-header bg-gradient-primary-to-secondary text-center">
-                        <img id="admin_image" class="rounded-circle border bg-light" alt="Doctor 1" width="200px" height="200px">
+                        <img id="admin_image_display" class="rounded-circle border bg-light" alt="Doctor 1" width="200px" height="200px">
                     </div>
                     <div class="card-body">
-                        <h3 id="admin_name" class="font-alt text-center">test</h3>
+                        <h3 id="admin_name" class="font-alt text-center mb-2"></h3>
 
                         <div class="mb-2">
                             <strong style="display: inline-block; margin-right: 5px;">Username:</strong>
                             <p id="admin_username" class="inline-value" style="display: inline;"></p>
                         </div>
 
-                        <div>
+                        <div class="mb-2">
                             <strong style="display: inline-block; margin-right: 5px;">Password:</strong>
-                            <p id="admin_password" class="inline-value text-muted" style="display: inline;">**********</p>
+                            <p id="admin_password" class="inline-value text-muted" style="display: inline;">********************</p>
+                        </div>
+
+                        <div>
+                            <strong style="display: inline-block; margin-right: 5px;">Image:</strong>
+                            <p id="admin_image" class="inline-value" style="display: inline;"></p>
                         </div>
                     </div>
                 </div>
@@ -446,7 +451,7 @@
     </div>
 </div>
 
-<!-- Login Modal -->
+<!-- New Admin Modal -->
 <div class="modal fade" id="new_administrator" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -458,11 +463,11 @@
                 <form id="new_admin_form" action="javascript:void(0)">
                     <div class="mb-3">
                         <div class="text-center">
-                            <img id="new_admin_image_display" class="rounded-circle border" width="200" height="200" src="./assets/img/default_image_user.png">
+                            <img id="new_admin_image_display" class="rounded-circle border" width="200px" height="200px" src="./assets/img/default_image_user.png">
                         </div>
                         <div class="form-group mt-3">
                             <div class="input-group">
-                                <input type="file" id="new_admin_image" class="form-control" accept=".jpg, .jpeg, .png">
+                                <input type="file" id="new_admin_image" class="form-control" accept=".jpg, .jpeg, .png" required>
                             </div>
                         </div>
                     </div>
@@ -473,6 +478,7 @@
                     <div class="form-floating mb-3">
                         <input class="form-control" id="new_admin_username" type="text" placeholder="..." required />
                         <label for="new_admin_username">Username</label>
+                        <small class="text-danger d-none" id="new_admin_error_username">Username already exists!</small>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" id="new_admin_password" type="password" placeholder="..." required />
@@ -528,24 +534,6 @@
             $("#doctor_image").attr("src", doctor_image);
             $("#doctor_name").text(doctor_name);
             $("#doctor_description").text(doctor_description);
-        })
-
-        $(".view_admin_details").click(function() {
-            var parent_tr = $(this).parent("td").parent("tr");
-            var name = parent_tr.children("td.name").children("a").text();
-            var username = parent_tr.children("td.username").text();
-            var image = parent_tr.children("td.image").text();
-
-            if (!image) {
-                image = "./assets/img/default_image_user.png";
-            } else {
-                image = "./assets/img/admins/" + image;
-            }
-
-            $("#admin_image").attr("src", image);
-            $("#admin_about_name").text(name);
-            $("#admin_name").text(name);
-            $("#admin_username").text(username);
         })
 
         $(".btn_approve").click(function() {
@@ -901,8 +889,29 @@
             $("#message_details_message").text(message);
         })
 
+        $(".view_admin_details").click(function() {
+            var parent_tr = $(this).parent("td").parent("tr");
+            var name = parent_tr.children("td.name").children("a").text();
+            var username = parent_tr.children("td.username").text();
+            var image = parent_tr.children("td.image").text();
+
+            $("#admin_image").text(image ? image : "Not Yet Available");
+            $("#admin_name").text(name);
+            $("#admin_username").text(username);
+
+            if (!image) {
+                image = "./assets/img/default_image_user.png";
+            } else {
+                image = "./assets/img/admins/" + image;
+            }
+
+            $("#admin_image_display").attr("src", image);
+        })
+
         $("#new_admin_image").change(function() {
-            displayFileInfoAdmin(this);
+            var image = $("#new_admin_image")[0].files[0];
+
+            $('#new_admin_image_display').attr('src', window.URL.createObjectURL(image));
         })
 
         $("#new_admin_form").submit(function() {
@@ -910,6 +919,7 @@
             var username = $("#new_admin_username").val();
             var password = $("#new_admin_password").val();
             var confirm_password = $("#new_admin_confirm_password").val();
+            var image = $("#new_admin_image")[0].files[0];
 
             var errors = 0;
 
@@ -920,13 +930,15 @@
             }
 
             if (errors == 0) {
+                $("#new_admin_submit").text("Processing Request...");
+                $("#new_admin_submit").attr("disabled", true);
+
                 var formData = new FormData();
 
-                // Append image file
-                var fileInput = document.getElementById('new_admin_image');
-                var file = fileInput.files[0];
-
-                formData.append('new_admin_image', file);
+                formData.append('new_admin_name', name);
+                formData.append('new_admin_username', username);
+                formData.append('new_admin_password', password);
+                formData.append('new_admin_image', image);
                 formData.append('new_admin', true);
 
                 $.ajax({
@@ -937,13 +949,24 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        location.href = "./administrators";
+                        if (response) {
+                            location.href = "./administrators";
+                        } else {
+                            $("#new_admin_error_username").removeClass("d-none");
+
+                            $("#new_admin_submit").text("Submit");
+                            $("#new_admin_submit").removeAttr("disabled");
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
                     }
                 });
             }
+        })
+
+        $("#new_admin_username").on("keypress", function() {
+            $("#new_admin_error_username").addClass("d-none");
         })
 
         $("#new_admin_password").on("keypress", function() {
@@ -954,11 +977,51 @@
             $("#new_admin_error_password").addClass("d-none");
         })
 
-        function displayFileInfoAdmin(uploader) {
-            if (uploader.files && uploader.files[0]) {
-                $('#new_admin_image_display').attr('src', window.URL.createObjectURL(uploader.files[0]));
-            }
-        }
+        $(".update_admin").click(function() {
+            var id = $(this).attr("administrator_id");
+
+            Swal.fire({
+                title: "Oops..",
+                text: "This function is under development!",
+                icon: "error"
+            });
+        })
+
+        $(".delete_admin").click(function() {
+            var id = $(this).attr("administrator_id");
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var formData = new FormData();
+
+                    formData.append('id', id);
+                    formData.append('delete_admin', true);
+
+                    $.ajax({
+                        url: './application/controllers/controller.php',
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'JSON',
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            location.href = "./administrators"
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+        })
 
         function formatDate(inputDate) {
             const months = [

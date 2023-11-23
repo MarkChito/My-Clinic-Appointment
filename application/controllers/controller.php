@@ -58,6 +58,10 @@ class controller
             if (isset($_POST['new_admin'])) {
                 $this->new_admin();
             }
+
+            if (isset($_POST['delete_admin'])) {
+                $this->delete_admin();
+            }
         }
     }
 
@@ -80,6 +84,13 @@ class controller
         $messages = $this->model->mod_get_messages_data();
 
         return $messages;
+    }
+
+    function get_administrators_data()
+    {
+        $administrators = $this->model->mod_get_administrators_data();
+
+        return $administrators;
     }
 
     function login()
@@ -273,23 +284,77 @@ class controller
         echo json_encode(true);
     }
 
-    function get_administrators_data()
-    {
-        $administrators = $this->model->mod_get_administrators_data();
-
-        return $administrators;
-    }
-
     function new_admin()
     {
-        // Handle image upload
-        $targetDirectory = "../../";
-        $targetFile = $targetDirectory . basename($_FILES["new_admin_image"]["name"]);
+        $name = $_POST["new_admin_name"];
+        $username = $_POST["new_admin_username"];
+        $password = $_POST["new_admin_password"];
+        $image = $_FILES["new_admin_image"];
+
+        $username_exists = $this->model->mod_get_useraccount_data($username);
+
+        if ($username_exists) {
+            echo json_encode(false);
+        } else {
+            if ($this->upload_image($image)) {
+                $added = $this->model->mod_add_new_admin($name, $username, password_hash($password, PASSWORD_BCRYPT), basename($image["name"]));
+
+                if ($added) {
+                    $_SESSION['error'] = array(
+                        "error_type" => "success",
+                        "error_title" => "Success",
+                        "error_message" => "Administrator is added successfully!"
+                    );
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            } else {
+                $_SESSION['error'] = array(
+                    "error_type" => "error",
+                    "error_title" => "Oops..",
+                    "error_message" => "There is an error while processing your request!"
+                );
+            }
+
+            echo json_encode(true);
+        }
+    }
+
+    function delete_admin()
+    {
+        $id = $_POST["id"];
+
+        $deleted = $this->model->mod_delete_admin($id);
+
+        if ($deleted) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Administrator is deleted successfully!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "There is an error while processing your request!"
+            );
+        }
+
+        echo json_encode(true);
+    }
+
+    private function upload_image($image)
+    {
+        $targetDirectory = "../../assets/img/admins/";
+        $targetFile = $targetDirectory . basename($image["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES["new_admin_image"]["tmp_name"]);
+        $check = getimagesize($image["tmp_name"]);
 
         if ($check) {
             $uploadOk = 1;
@@ -297,41 +362,21 @@ class controller
             $uploadOk = 0;
         }
 
-        // Allow certain file formats
         $allowedExtensions = array("jpg", "jpeg", "png");
-        if (!in_array($imageFileType, $allowedExtensions)) {
-            $_SESSION['error'] = array(
-                "error_type" => "error",
-                "error_title" => "Oops..",
-                "error_message" => "There is an error while uploading your image! 1"
-            );
 
+        if (!in_array($imageFileType, $allowedExtensions)) {
             $uploadOk = 0;
         }
 
         if ($uploadOk == 0) {
-            $_SESSION['error'] = array(
-                "error_type" => "error",
-                "error_title" => "Oops..",
-                "error_message" => "There is an error while uploading your image! 2"
-            );
+            return false;
         } else {
-            if (move_uploaded_file($_FILES["new_admin_image"]["tmp_name"], $targetFile)) {
-                $_SESSION['error'] = array(
-                    "error_type" => "success",
-                    "error_title" => "Success",
-                    "error_message" => "yehey! Mabuhay!"
-                );
+            if (move_uploaded_file($image["tmp_name"], $targetFile)) {
+                return true;
             } else {
-                $_SESSION['error'] = array(
-                    "error_type" => "error",
-                    "error_title" => "Oops..",
-                    "error_message" => "There is an error while uploading your image 3"
-                );
+                return false;
             }
         }
-
-        echo json_encode(true);
     }
 }
 

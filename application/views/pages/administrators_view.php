@@ -48,11 +48,11 @@ include_once "./application/views/templates/header.php";
                                 </a>
                             </td>
                             <td class="username"><?= $administrator->username ?></td>
-                            <td class="password"> ********** </td>
-                            <td class="image"><?= $administrator->image ?></td>
+                            <td class="password">********************</td>
+                            <td class="image text-truncate"><?= $administrator->image ?></td>
                             <td class="text-center">
-                                <i title="Edit Admin" application_id="<?= $administrator->id ?>" class="fas fa-pencil-alt text-primary me-2" role="button"></i>
-                                <i title="Delete Admin" application_id="<?= $administrator->id ?>" class="fas fa-trash-alt text-danger" role="button"></i>
+                                <i title="Update Administrator Info" administrator_id="<?= $administrator->id ?>" class="fas fa-pencil-alt text-primary me-1 update_admin" role="button"></i>
+                                <i title="Delete Administrator" administrator_id="<?= $administrator->id ?>" class="fas fa-trash-alt text-danger delete_admin" role="button"></i>
                             </td>
                         </tr>
                     <?php endforeach ?>
