@@ -59,6 +59,10 @@ class controller
                 $this->new_admin();
             }
 
+            if (isset($_POST['update_admin'])) {
+                $this->update_admin();
+            }
+
             if (isset($_POST['delete_admin'])) {
                 $this->delete_admin();
             }
@@ -103,9 +107,10 @@ class controller
 
         if ($useraccount) {
             $db_id = $useraccount[0]->id;
+            $db_username = $useraccount[0]->username;
             $db_password = $useraccount[0]->password;
 
-            if (password_verify($password, $db_password)) {
+            if (password_verify($password, $db_password) && $username == $db_username) {
                 $_SESSION['id'] = $db_id;
 
                 $_SESSION['error'] = array(
@@ -318,6 +323,106 @@ class controller
                     "error_title" => "Oops..",
                     "error_message" => "There is an error while processing your request!"
                 );
+            }
+
+            echo json_encode(true);
+        }
+    }
+
+    function update_admin()
+    {
+        $id = $_POST["update_admin_id"];
+        $name = $_POST["update_admin_name"];
+        $username = $_POST["update_admin_username"];
+        $old_username = $_POST["update_admin_old_username"];
+        $password = $_POST["update_admin_password"];
+        $image = isset($_FILES["update_admin_image"]) ? $_FILES["update_admin_image"] : null;
+
+        $username_exists = $this->model->mod_get_useraccount_data($username);
+
+        if ($username_exists && ($username != $old_username)) {
+            echo json_encode(false);
+        } else {
+            if ($image && $password) {
+                if ($this->upload_image($image)) {
+                    $updated = $this->model->mod_update_new_admin($name, $username, password_hash($password, PASSWORD_BCRYPT), basename($image["name"]), $id);
+
+                    if ($updated) {
+                        $_SESSION['error'] = array(
+                            "error_type" => "success",
+                            "error_title" => "Success",
+                            "error_message" => "Administrator is added successfully!"
+                        );
+                    } else {
+                        $_SESSION['error'] = array(
+                            "error_type" => "error",
+                            "error_title" => "Oops..",
+                            "error_message" => "There is an error while processing your request!"
+                        );
+                    }
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            } else if ($image && !$password) {
+                if ($this->upload_image($image)) {
+                    $updated = $this->model->mod_update_new_admin_with_image_no_password($name, $username, basename($image["name"]), $id);
+
+                    if ($updated) {
+                        $_SESSION['error'] = array(
+                            "error_type" => "success",
+                            "error_title" => "Success",
+                            "error_message" => "Administrator is added successfully!"
+                        );
+                    } else {
+                        $_SESSION['error'] = array(
+                            "error_type" => "error",
+                            "error_title" => "Oops..",
+                            "error_message" => "There is an error while processing your request!"
+                        );
+                    }
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            } else if (!$image && $password) {
+                $updated = $this->model->mod_update_new_admin_no_image_with_password($name, $username, password_hash($password, PASSWORD_BCRYPT), $id);
+
+                if ($updated) {
+                    $_SESSION['error'] = array(
+                        "error_type" => "success",
+                        "error_title" => "Success",
+                        "error_message" => "Administrator is added successfully!"
+                    );
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            } else {
+                $updated = $this->model->mod_update_new_admin_no_image_no_password($name, $username, $id);
+
+                if ($updated) {
+                    $_SESSION['error'] = array(
+                        "error_type" => "success",
+                        "error_title" => "Success",
+                        "error_message" => "Administrator is added successfully!"
+                    );
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
             }
 
             echo json_encode(true);

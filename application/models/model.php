@@ -121,7 +121,8 @@ class model
 
     function mod_get_administrators_data()
     {
-        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `id` != '" . $_SESSION['id'] . "'";
+        // $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `id` != '" . $_SESSION['id'] . "'";
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts`";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result) {
@@ -202,6 +203,54 @@ class model
     function mod_update_appointment($status, $id)
     {
         $query = "UPDATE `tbl_myclinicappointment_appointments` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_appointments`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function mod_update_new_admin($name, $username, $password, $image, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `password` = '". $password ."', `image` = '". $image ."' WHERE `id` = '". $id ."'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function mod_update_new_admin_with_image_no_password($name, $username, $image, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `image` = '". $image ."' WHERE `id` = '". $id ."'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function mod_update_new_admin_no_image_with_password($name, $username, $password, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `password` = '". $password ."' WHERE `id` = '". $id ."'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function mod_update_new_admin_no_image_no_password($name, $username, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."' WHERE `id` = '". $id ."'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {

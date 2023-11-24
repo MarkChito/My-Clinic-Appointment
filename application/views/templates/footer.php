@@ -498,6 +498,55 @@
     </div>
 </div>
 
+<!-- Update Admin Modal -->
+<div class="modal fade" id="update_administrator" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Update Administrator</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="update_admin_form" action="javascript:void(0)">
+                    <div class="mb-3">
+                        <div class="text-center">
+                            <img id="update_admin_image_display" class="rounded-circle border" width="200px" height="200px" src="./assets/img/default_image_user.png">
+                        </div>
+                        <div class="form-group mt-3">
+                            <div class="input-group">
+                                <input type="file" id="update_admin_image" class="form-control" accept=".jpg, .jpeg, .png">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_name" type="text" placeholder="..." required />
+                        <label for="update_admin_name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_username" type="text" placeholder="..." required />
+                        <label for="update_admin_username">Username</label>
+                        <small class="text-danger d-none" id="update_admin_error_username">Username already exists!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_password" type="password" placeholder="..." />
+                        <label for="update_admin_password">Password</label>
+                        <small class="text-danger d-none" id="update_admin_error_password">Password do not match!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_confirm_password" type="password" placeholder="..." />
+                        <label for="update_admin_confirm_password">Confirm Password</label>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary rounded-pill btn-lg" id="update_admin_submit" type="submit">Submit</button>
+                        <input type="hidden" id="update_admin_old_username">
+                        <input type="hidden" id="update_admin_id">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap core JS -->
 <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- JQuery -->
@@ -978,13 +1027,90 @@
         })
 
         $(".update_admin").click(function() {
+            var parent_tr = $(this).parent("td").parent("tr");
+            var name = parent_tr.children("td.name").children("a").text();
+            var username = parent_tr.children("td.username").text();
+            var image = parent_tr.children("td.image").text();
             var id = $(this).attr("administrator_id");
 
-            Swal.fire({
-                title: "Oops..",
-                text: "This function is under development!",
-                icon: "error"
-            });
+            $("#update_admin_id").val(id);
+            $("#update_admin_name").val(name);
+            $("#update_admin_username").val(username);
+            $("#update_admin_old_username").val(username);
+            $("#update_admin_image_display").attr("src", "./assets/img/admins/" + image);
+        })
+
+        $("#update_admin_image").change(function() {
+            var image = $("#update_admin_image")[0].files[0];
+
+            $('#update_admin_image_display').attr('src', window.URL.createObjectURL(image));
+        })
+
+        $("#update_admin_form").submit(function() {
+            var id = $("#update_admin_id").val();
+            var name = $("#update_admin_name").val();
+            var username = $("#update_admin_username").val();
+            var old_username = $("#update_admin_old_username").val();
+            var password = $("#update_admin_password").val();
+            var confirm_password = $("#update_admin_confirm_password").val();
+            var image = $("#update_admin_image")[0].files[0];
+
+            var errors = 0;
+
+            if ((password || confirm_password) && (password != confirm_password)) {
+                $("#update_admin_error_password").removeClass("d-none");
+
+                errors++;
+            }
+
+            if (errors == 0) {
+                $("#update_admin_submit").text("Processing Request...");
+                $("#update_admin_submit").attr("disabled", true);
+
+                var formData = new FormData();
+
+                formData.append('update_admin_id', id);
+                formData.append('update_admin_name', name);
+                formData.append('update_admin_username', username);
+                formData.append('update_admin_old_username', old_username);
+                formData.append('update_admin_password', password);
+                formData.append('update_admin_image', image);
+                formData.append('update_admin', true);
+
+                $.ajax({
+                    url: './application/controllers/controller.php',
+                    data: formData,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response) {
+                            location.href = "./administrators";
+                        } else {
+                            $("#update_admin_error_username").removeClass("d-none");
+
+                            $("#update_admin_submit").text("Submit");
+                            $("#update_admin_submit").removeAttr("disabled");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        })
+
+        $("#update_admin_username").on("keypress", function() {
+            $("#update_admin_error_username").addClass("d-none");
+        })
+
+        $("#update_admin_password").on("keypress", function() {
+            $("#update_admin_error_password").addClass("d-none");
+        })
+
+        $("#update_admin_confirm_password").on("keypress", function() {
+            $("#update_admin_error_password").addClass("d-none");
         })
 
         $(".delete_admin").click(function() {
