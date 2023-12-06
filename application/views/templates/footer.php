@@ -56,6 +56,7 @@
                     <div class="form-floating mb-3">
                         <textarea class="form-control" id="join_us_description" type="text" placeholder="..." style="height: 10rem" required></textarea>
                         <label for="join_us_description">Tell me about yourself</label>
+                        <p>file for uploading-pending work</p>
                     </div>
 
                     <div class="d-grid">
@@ -78,8 +79,16 @@
             <div class="modal-body border-0 p-4">
                 <form id="book_now_form" action="javascript:void(0)">
                     <!-- Personal Information -->
+                    <div class="row">
+                        <div class="col-auto mb-3">
+                            <div class="form-floating">
+                                <small class="text-danger">*Welcome to MyClinicAppointment Online Specialty Consultation Scheduler.</small><br>
+                                <small class="text-danger">This form is for sending your appointment request, which will still be process and confirmed by the MyClinicAppointment staff. After sending your request, allow our team to review your request for 2-4 hours (within the operational hours of 8AM to 5PM) to contact you via email, call or text.</small>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mb-lg-3 mb-0">
-                        <p class="h5 fs-5">Personal Information</p>
+                        <p class="h5 fs-5">Patient Details</p>
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
@@ -91,6 +100,24 @@
                                 <div class="form-floating">
                                     <input class="form-control" id="book_now_last_name" type="text" placeholder="..." required />
                                     <label for="book_now_last_name">Last name</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-lg-3 mb-0">
+                            <div class="col-lg-6 col-12 mb-lg-0 mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" id="book_now_dob" type="date" placeholder="MM/DD/YYYY" required />
+                                    <label for="book_now_dob">Date of Birth (MM/DD/YYYY)</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12 mb-lg-0 mb-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="book_now_gender" required>
+                                        <option value="" disabled selected>Choose...</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <label for="book_now_gender">Gender</label>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +139,43 @@
                     <!-- Appointment Details -->
                     <div class="mb-lg-3 mb-0">
                         <p class="h5 fs-5">Appointment Details</p>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="book_now_doctor_specialization" required>
+                                        <option value="" disabled selected>Choose...</option>
+                                        <option value="Internal Medicine">Internal Medicine</option>
+                                        <option value="Surgery">Surgery</option>
+                                        <option value="Obstetrics and Gynecology">Obstetrics and Gynecology</option>
+                                        <option value="Pediatrics">Pediatrics</option>
+                                        <option value="Psychiatry">Psychiatry</option>
+                                        <option value="Anesthesiology">Anesthesiology</option>
+                                        <option value="Radiology">Radiology</option>
+                                        <option value="Ophthalmology">Ophthalmology</option>
+                                        <option value="Otolaryngology">Otolaryngology</option>
+                                        <option value="Emergency Medicine">Emergency Medicine</option>
+                                        <option value="Pathology">Pathology</option>
+                                        <option value="Neurology">Neurology</option>
+                                        <option value="Allergy and Immunology">Allergy and Immunology</option>
+                                        <option value="Infectious Disease">Infectious Disease</option>
+                                        <option value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation</option>
+                                        <option value="Endocrinology">Endocrinology</option>
+                                        <option value="Hematology">Hematology</option>
+                                        <option value="Oncology">Oncology</option>
+                                        <option value="Nuclear Medicine">Nuclear Medicine</option>
+                                    </select>
+                                    <label for="book_now_doctor_specialization">Specialization</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="book_now_doctor_name" disabled required>
+                                        <option value="" disabled selected>Choose...</option>
+                                    </select>
+                                    <label for="book_now_doctor_name">Doctor</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
@@ -123,7 +187,6 @@
                                 <div class="form-floating">
                                     <select class="form-select" id="book_now_contact_method" required>
                                         <option value="" disabled selected>Choose...</option>
-                                        <option value="Video Call">Video Call</option>
                                         <option value="Phone Call">Phone Call</option>
                                         <option value="Email">Email</option>
                                         <option value="SMS">SMS</option>
@@ -143,31 +206,10 @@
                     </div>
                     <!-- Payment Options -->
                     <div class="mb-3">
-                        <p class="h5 fs-5">Payment Method</p>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="payment_gcash" value="Gcash" required />
-                            <label class="form-check-label" for="payment_gcash">
-                                GCash
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="payment_paymaya" value="Paymaya" required />
-                            <label class="form-check-label" for="payment_paymaya">
-                                PayMaya
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="payment_credit_card" value="Credit Card or Visa/Mastercard" required />
-                            <label class="form-check-label" for="payment_credit_card">
-                                Credit Card or Visa/Mastercard
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_method" id="payment_paypal" value="Paypal" required />
-                            <label class="form-check-label" for="payment_paypal">
-                                Paypal
-                            </label>
-                        </div>
+                        <input class="form-check-input" type="checkbox" name="privacy_and_terms" required />
+                        <label class="form-check-label" for="privacy_and_term">
+                            I have read, understood, and accepted the <a href="privacy.php" target="_blank">Privacy Policy</a> and <a href="tnx.php" target="_blank">Terms & Conditions</a>.
+                        </label>
                     </div>
                     <div class="d-grid"><button class="btn btn-primary rounded-pill btn-lg" id="book_now_submit" type="submit">Submit</button></div>
                 </form>
@@ -425,7 +467,16 @@
                         <img id="admin_image_display" class="rounded-circle border bg-light" alt="Doctor 1" width="200px" height="200px">
                     </div>
                     <div class="card-body">
-                        <h3 id="admin_name" class="font-alt text-center mb-2"></h3>
+
+                        <div class="mb-2">
+                            <strong style="display: inline-block; margin-right: 5px;">Name:</strong>
+                            <p id="admin_name" class="inline-value" style="display: inline;"></p>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong style="display: inline-block; margin-right: 5px;">Email:</strong>
+                            <p id="admin_email" class="inline-value" style="display: inline;"></p>
+                        </div>
 
                         <div class="mb-2">
                             <strong style="display: inline-block; margin-right: 5px;">Username:</strong>
@@ -547,6 +598,114 @@
     </div>
 </div>
 
+<!-- Doctor's Temporary User Account Modal -->
+<div class="modal fade" id="doctor_temp_useraccount" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Doctor Temporary Account</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="doctor_temp_useraccount_form" action="./application/controllers/controller.php" method="POST">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="doctor_temp_useraccount_username" id="doctor_temp_useraccount_username" type="text" placeholder="..." required />
+                        <label for="doctor_temp_useraccount_username">Username</label>
+                        <small class="text-danger d-none" id="doctor_temp_useraccount_error_username">Username already exists</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="doctor_temp_useraccount_password" id="doctor_temp_useraccount_password" type="password" placeholder="..." required />
+                        <label for="doctor_temp_useraccount_password">Password</label>
+                    </div>
+                    <div class="d-grid">
+                        <input type="hidden" name="doctor_temp_useraccount_id" id="doctor_temp_useraccount_id">
+                        <input type="hidden" name="doctor_temp_useraccount_name" id="doctor_temp_useraccount_name">
+                        <input type="hidden" name="doctor_temp_useraccount_email" id="doctor_temp_useraccount_email">
+                        <input type="hidden" name="approve_application" value="true">
+                        <button type="submit" class="btn btn-primary rounded-pill btn-lg" id="doctor_temp_useraccount_submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Doctor's Schedule Modal -->
+<div class="modal fade" id="update_doctor_schedule_by_date_and_time" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">My Schedule</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="update_doctor_schedule" action="javascript:void(0)">
+                    <div class="form-floating mb-3">
+                        <div class="col-lg-12 col-12">
+                            <p class="h5 fs-5">Weekly Schedule</p>
+                            <div class="mt-3">
+                                <select class="form-select py-3" id="update_doctor_schedule_by_date_and_time_weekly">
+                                    <option value="monday">Monday</option>
+                                    <option value="tuesday">Tuesday</option>
+                                    <option value="wednesday">Wednesday</option>
+                                    <option value="thursday">Thursday</option>
+                                    <option value="friday">Friday</option>
+                                    <option value="saturday">Saturday</option>
+                                    <option value="sunday">Sunday</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-3">
+                        <div class="col-lg-12 col-12">
+                            <p class="h5 fs-5">Start Time</p>
+                        </div>
+                        <div class="mt-3">
+                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_start_time" type="time">
+                        </div>
+                    </div>
+                    <div class="form-floating mt-3">
+                        <div class="col-lg-12 col-12">
+                            <p class="h5 fs-5">End Time</p>
+                        </div>
+                        <div class="mt-3">
+                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_end_time" type="time">
+                        </div>
+                    </div>
+                    <div class="d-grid mt-3"><button class="btn btn-primary rounded-pill btn-lg" id="update_doctor_schedule_by_date_and_time_submit" type="submit">Submit</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications List Modal -->
+<div class="modal fade" id="notifications_list" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Notifications</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <ul class="list-group">
+                    <?php foreach ($notifications_all as $notification) : ?>
+                        <li class="list-group-item <?= $notification->status == 'unclicked' ? 'unread' : 'read' ?>">
+                            <a href="#" class="text-decoration-none">
+                                <h5 class="mb-1"><?= $notification->title ?></h5>
+                                <p class="mb-1"><?= $notification->details ?></p>
+                            </a>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap core JS -->
 <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- JQuery -->
@@ -565,6 +724,8 @@
 <script>
     $(document).ready(function() {
         var error = <?= isset($_SESSION['error']) ? json_encode($_SESSION['error']) : json_encode(array()) ?>;
+
+        var server = "./application/controllers/controller.php";
 
         if (error.length != 0) {
             sweetalert(error);
@@ -586,35 +747,63 @@
         })
 
         $(".btn_approve").click(function() {
+            var parent_tr = $(this).parent("div").parent("td").parent("tr");
             var parent_td = $(this).parent("div").parent("td");
             var approve_reject_btn = parent_td.find(".approve_reject_btn");
-            var small_loader = parent_td.find(".small_loader");
-
-            approve_reject_btn.addClass("d-none");
-            small_loader.removeClass("d-none");
 
             var id = $(this).attr("application_id");
+            var last_name = parent_tr.children("td.last_name").children("a").text();
+            var first_name = parent_tr.children("td.first_name").text();
+            var email = parent_tr.children("td.email_address").text();
 
-            var formData = new FormData();
+            $("#doctor_temp_useraccount_id").val(id);
+            $("#doctor_temp_useraccount_name").val(first_name + " " + last_name);
+            $("#doctor_temp_useraccount_email").val(email);
+        })
 
-            formData.append('id', id);
-            formData.append('status', 'Approved');
-            formData.append('update_application', true);
+        $("#doctor_temp_useraccount_form").submit(function() {
+            // var application_id = $("#doctor_temp_useraccount_id").val();
+            // var name = $("#doctor_temp_useraccount_name").val();
+            // var username = $("#doctor_temp_useraccount_username").val();
+            // var password = $("#doctor_temp_useraccount_password").val();
 
-            $.ajax({
-                url: './application/controllers/controller.php',
-                data: formData,
-                type: 'POST',
-                dataType: 'JSON',
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    location.href = "./applications";
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+            // var formData = new FormData();
+
+            // formData.append('application_id', application_id);
+            // formData.append('name', name);
+            // formData.append('username', username);
+            // formData.append('password', password);
+            // formData.append('status', 'Approved');
+            // formData.append('approve_application', true);
+
+            $("#doctor_temp_useraccount_submit").text("Processing Request...");
+            $("#doctor_temp_useraccount_submit").attr("disabled", true);
+
+            // $.ajax({
+            //     url: './application/controllers/controller.php',
+            //     data: formData,
+            //     type: 'POST',
+            //     dataType: 'JSON',
+            //     processData: false,
+            //     contentType: false,
+            //     success: function(response) {
+            //         if (response) {
+            //             location.href = "./applications";
+            //         } else {
+            //             $("#doctor_temp_useraccount_error_username").removeClass("d-none");
+
+            //             $("#doctor_temp_useraccount_submit").text("Submit");
+            //             $("#doctor_temp_useraccount_submit").removeAttr("disabled");
+            //         }
+            //     },
+            //     error: function(xhr, status, error) {
+            //         console.error(error);
+            //     }
+            // });
+        })
+
+        $("#doctor_temp_useraccount_username").keypress(function() {
+            $("#doctor_temp_useraccount_error_username").addClass("d-none");
         })
 
         $(".btn_reject").click(function() {
@@ -647,6 +836,10 @@
                     console.error(error);
                 }
             });
+        })
+
+        $("#doctor_schedule_date_and_time_edit").click(function() {
+            $("#doctor_schedule_date_and_time_edit_edit").removeClass("d-none");
         })
 
         $("#login_form").submit(function() {
@@ -805,9 +998,10 @@
             var last_name = $("#book_now_last_name");
             var email_address = $("#book_now_email_address");
             var mobile_number = $("#book_now_mobile_number");
+            var doctor_specialization = $("#book_now_doctor_specialization");
+            var doctor_name = $("#book_now_doctor_name");
             var appointment_date = $("#book_now_appointment_date");
             var contact_method = $("#book_now_contact_method");
-            var payment_method = $("input[name='payment_method']");
             var reasons = $("#book_now_reasons");
             var submit = $("#book_now_submit");
 
@@ -817,21 +1011,22 @@
             formData.append('last_name', last_name.val());
             formData.append('email_address', email_address.val());
             formData.append('mobile_number', mobile_number.val());
+            formData.append('doctor_specialization', doctor_specialization.val());
+            formData.append('doctor_name', doctor_name.val());
             formData.append('appointment_date', formatDate(appointment_date.val()));
             formData.append('contact_method', contact_method.val());
             formData.append('reasons', reasons.val());
-            formData.append('payment_method', $("input[name='payment_method']:checked").val());
             formData.append('book_now', true);
 
             first_name.attr("disabled", true);
             last_name.attr("disabled", true);
             email_address.attr("disabled", true);
             mobile_number.attr("disabled", true);
+            doctor_specialization.attr("disabled", true);
+            doctor_name.attr("disabled", true);
             appointment_date.attr("disabled", true);
             contact_method.attr("disabled", true);
-            payment_method.attr("disabled", true);
             reasons.attr("disabled", true);
-
             submit.attr("disabled", true);
             submit.text("Processing Request...");
 
@@ -1147,6 +1342,46 @@
                     });
                 }
             });
+        })
+
+        $("#book_now_doctor_specialization").change(function() {
+            $("#book_now_doctor_name").removeAttr("disabled");
+
+            var specialization = $(this).val();
+
+            var formData = new FormData();
+
+            formData.append('specialization', specialization);
+            formData.append('get_doctor_specialization', true);
+
+
+            $.ajax({
+                url: server,
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $('#book_now_doctor_name').empty();
+
+                    for (const user of response) {
+
+                        $('#book_now_doctor_name').append($('<option>', {
+                            value: user.useraccount_id,
+                            text: user.name
+                        }));
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
+        $("#btn_notification").click(function() {
+            console.log("Pressed!");
         })
 
         function formatDate(inputDate) {

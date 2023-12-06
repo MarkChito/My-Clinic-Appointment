@@ -25,6 +25,7 @@ class controller
     function __construct()
     {
         $this->model = new model();
+        $this->email = new email();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['login'])) {
@@ -66,6 +67,14 @@ class controller
             if (isset($_POST['delete_admin'])) {
                 $this->delete_admin();
             }
+
+            if (isset($_POST['approve_application'])) {
+                $this->approve_application();
+            }
+
+            if (isset($_POST['get_doctor_specialization'])) {
+                $this->get_doctors_data_by_specialization();
+            }
         }
     }
 
@@ -76,9 +85,9 @@ class controller
         return $applications;
     }
 
-    function get_appointments_data()
+    function get_appointments_data($id)
     {
-        $appointments = $this->model->mod_get_appointments_data();
+        $appointments = $this->model->mod_get_appointments_data($id);
 
         return $appointments;
     }
@@ -97,6 +106,42 @@ class controller
         return $administrators;
     }
 
+    function get_administrators_data_by_id($id)
+    {
+        $administrators = $this->model->mod_get_administrators_data_by_id($id);
+
+        return $administrators;
+    }
+
+    function get_notifications_data_by_id($id)
+    {
+        $notification = $this->model->mod_get_notifications_data_by_id($id);
+
+        return $notification;
+    }
+
+    function get_notifications($id)
+    {
+        $notification = $this->model->mod_get_notifications($id);
+
+        return $notification;
+    }
+
+    function get_doctors_data_by_specialization()
+    {
+        $specialization = $_POST['specialization'];
+        $specializationz = $this->model->mod_get_doctors_data_by_specialization($specialization);
+
+        echo json_encode($specializationz);
+    }
+
+    function get_doctors_data_by_id($useraccount_id)
+    {
+        $doctors = $this->model->mod_get_doctors_data_by_id($useraccount_id);
+
+        return $doctors;
+    }
+
     function login()
     {
         $username = $_POST['login_username'];
@@ -109,9 +154,11 @@ class controller
             $db_id = $useraccount[0]->id;
             $db_username = $useraccount[0]->username;
             $db_password = $useraccount[0]->password;
+            $db_usertype = $useraccount[0]->user_type;
 
             if (password_verify($password, $db_password) && $username == $db_username) {
                 $_SESSION['id'] = $db_id;
+                $_SESSION['usertype'] = $db_usertype;
 
                 $_SESSION['error'] = array(
                     "error_type" => "success",
@@ -240,12 +287,13 @@ class controller
         $last_name = $_POST['last_name'];
         $email_address = $_POST['email_address'];
         $mobile_number = $_POST['mobile_number'];
+        $doctor_specialization = $_POST['doctor_specialization'];
+        $doctor_name = $_POST['doctor_name'];
         $appointment_date = $_POST['appointment_date'];
         $contact_method = $_POST['contact_method'];
         $reasons = $_POST['reasons'];
-        $payment_method = $_POST['payment_method'];
 
-        $added = $this->model->mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $appointment_date, $contact_method, $reasons, $payment_method);
+        $added = $this->model->mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $contact_method, $reasons);
 
         if ($added) {
             $_SESSION['error'] = array(
@@ -450,6 +498,65 @@ class controller
         }
 
         echo json_encode(true);
+    }
+
+    function approve_application()
+    {
+        $application_id = $_POST["doctor_temp_useraccount_id"];
+        $name = $_POST["doctor_temp_useraccount_name"];
+        $username = $_POST["doctor_temp_useraccount_username"];
+        $password = $_POST["doctor_temp_useraccount_password"];
+        $email = $_POST["doctor_temp_useraccount_email"];
+        $status = "Approved";
+        $image = "default_image_user.png";
+
+        $username_exists = $this->model->mod_get_useraccount_data($username);
+
+        if ($username_exists) {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "Username already exists!"
+            );
+        } else {
+            $this->model->mod_update_application($status, $application_id);
+            $this->model->mod_add_new_doctor($name, $username, password_hash($password, PASSWORD_BCRYPT), $image);
+
+            $recently_added_doctor = $this->model->mod_get_useraccount_data($username);
+
+            if ($recently_added_doctor) {
+                $useraccount_id = $recently_added_doctor[0]->id;
+
+                $doctor_added = $this->model->mod_add_doctor($useraccount_id, $name);
+
+                $subject = "Your Application has been approved!";
+                $message = "Congratratulations!, this is your temporary email and password. <br><br><strong>Username:</strong>" . $username . "<br><strong>Password:</strong>" . $password;
+
+                if ($doctor_added) {
+                    $send_success = $this->email->Send($name, $email, $subject, $message);
+
+                    $email_message = "check you email.";
+
+                    if (!$send_success) {
+                        $email_message = "but email is not sent. Please contact us in our \"Contact Us\" page.";
+                    }
+
+                    $_SESSION['error'] = array(
+                        "error_type" => "success",
+                        "error_title" => "Success",
+                        "error_message" => "Doctor is added successfully, " . $email_message
+                    );
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            }
+
+            header("Location: ../../applications");
+        }
     }
 
     private function upload_image($image)

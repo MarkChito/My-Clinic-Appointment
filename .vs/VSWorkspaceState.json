@@ -5,13 +5,13 @@
     "\\application\\controllers",
     "\\application\\models",
     "\\application\\views",
-    "\\application\\views\\templates",
+    "\\application\\views\\pages",
     "\\assets",
-    "\\assets\\img",
+    "\\assets\\img\\team",
     "\\plugins",
     "\\plugins\\sweetalert",
     "\\plugins\\sweetalert\\js"
   ],
-  "SelectedNode": "\\application\\views\\templates\\footer.php",
+  "SelectedNode": "\\application\\views\\pages\\administrators_view.php",
   "PreviewInSolutionExplorer": false
 }

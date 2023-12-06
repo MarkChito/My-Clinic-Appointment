@@ -32,7 +32,7 @@ include_once "./application/views/templates/header.php";
                 </tr>
             </thead>
             <tbody>
-                <?php $appointments = $controller->get_appointments_data() ?>
+                <?php $appointments = $controller->get_appointments_data($_SESSION['id']) ?>
                 <?php if ($appointments) : ?>
                     <?php foreach ($appointments as $appointment) : ?>
                         <?php

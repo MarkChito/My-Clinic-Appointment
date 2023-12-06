@@ -46,7 +46,7 @@ include_once "./application/views/templates/header.php";
                                 <a title="View Details" href="javascript:void(0)" class="view_admin_details" data-bs-toggle="modal" data-bs-target="#admin_details"><?= $administrator->name ?></a>
                             </td>
                             <td class="username"><?= $administrator->username ?></td>
-                            <td class="password">********************</td>
+                            <td class="password">**********</td>
                             <td class="image text-truncate"><?= $administrator->image ?></td>
                             <td class="text-center">
                                 <i title="Update Administrator Info" administrator_id="<?= $administrator->id ?>" class="fas fa-pencil-alt text-primary me-1 update_admin" role="button" data-bs-toggle="modal" data-bs-target="#update_administrator"></i>

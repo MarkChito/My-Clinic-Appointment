@@ -433,21 +433,19 @@ include_once "./application/views/templates/header.php";
         <div class="container px-5">
             <div class="text-white-50 small">
                 <div class="mb-2">&copy; MyClinicAppointment 2023. All Rights Reserved.</div>
-                <a href="#!">Privacy</a>
+                <a href="privacy.php" target="_blank">Privacy</a>
                 <span class="mx-1">&middot;</span>
-                <a href="#!">Terms</a>
+                <a href="tnx.php" target="_blank">Terms</a>
                 <span class="mx-1">&middot;</span>
-                <a href="#!">FAQ</a>
+                <a href="faq.php" target="_blank">FAQ</a>
             </div>
         </div>
     </footer>
+    <?php elseif ($_SESSION["usertype"]=="doctor"):?>
+        <?php include_once "./application/views/pages/doctor_view.php"; ?>
 <?php else : ?>
     <!-- Admin Interface -->
-    <section id="our_team" class="bg-light d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="container px-5 text-center">
-            <div class="h1 fs-1 text-muted">You are now in Administrator Page.</div>
-        </div>
-    </section>
+    <?php include_once "./application/views/pages/home_admin_view.php"; ?>
 <?php endif ?>
 
 <?php include_once "./application/views/templates/footer.php"; ?>

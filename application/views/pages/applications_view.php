@@ -55,13 +55,8 @@ include_once "./application/views/templates/header.php";
                                 break;
                         }
                         ?>
-
                         <tr>
-                            <td class="last_name">
-                                <a title="View Details" href="javascript:void(0)" class="view_application_details" data-bs-toggle="modal" data-bs-target="#application_details">
-                                    <?= $application->last_name ?>
-                                </a>
-                            </td>
+                            <td class="last_name"><a title="View Details" href="javascript:void(0)" class="view_application_details" data-bs-toggle="modal" data-bs-target="#application_details"><?= $application->last_name ?></a></td>
                             <td class="first_name"><?= $application->first_name ?></td>
                             <td class="email_address"><?= $application->email_address ?></td>
                             <td class="mobile_number"><?= $application->mobile_number ?></td>
@@ -73,7 +68,7 @@ include_once "./application/views/templates/header.php";
                             </td>
                             <td class="text-center">
                                 <div class="approve_reject_btn">
-                                    <i title="Approve Application" application_id="<?= $application->id ?>" class="<?= $status == 'Pending' ? 'btn_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                    <i title="Approve Application" application_id="<?= $application->id ?>" data-bs-toggle="modal" data-bs-target="#doctor_temp_useraccount" class="<?= $status == 'Pending' ? 'btn_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
                                     <i title="Reject Application" application_id="<?= $application->id ?>" class="<?= $status == 'Pending' ? 'btn_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
                                 </div>
                                 <div class="d-none small_loader">

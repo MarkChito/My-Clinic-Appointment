@@ -61,10 +61,20 @@ if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'localhos
                     </button>
                 <?php else : ?>
                     <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                        <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'administrators' ? 'active' : null ?>" href="administrators">Administrators</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'applications' ? 'active' : null ?>" href="applications">Applications</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'appointments' ? 'active' : null ?>" href="appointments">Appointments</a></li>
-                        <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'messages' ? 'active' : null ?>" href="messages">Messages</a></li>
+                        <?php if ($_SESSION["usertype"] == "admin") : ?>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'administrators' ? 'active' : null ?>" href="administrators">Administrators</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'applications' ? 'active' : null ?>" href="applications">Applications</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'appointments' ? 'active' : null ?>" href="appointments">Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'messages' ? 'active' : null ?>" href="messages">Messages</a></li>
+
+                        <?php elseif ($_SESSION["usertype"] == "admin2") : ?>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'applications' ? 'active' : null ?>" href="applications">Applications</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'appointments' ? 'active' : null ?>" href="appointments">Appointments</a></li>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'messages' ? 'active' : null ?>" href="messages">Messages</a></li>
+
+                            <?php elseif ($_SESSION["usertype"] == "doctor") : ?>
+                            <li class="nav-item"><a class="nav-link me-lg-3 <?= isset($_SESSION['current_page']) && $_SESSION['current_page'] == 'appointments' ? 'active' : null ?>" href="appointments">Appointments</a></li>
+                        <?php endif ?>
                     </ul>
                     <form action="./application/controllers/controller.php" method="POST">
                         <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" type="submit" id="btn_logout" name="logout">

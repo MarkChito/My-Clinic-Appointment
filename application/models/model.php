@@ -14,6 +14,14 @@ if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) {
     exit();
 }
 
+require 'PHPMailer.php';
+require 'SMTP.php';
+require 'Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class model
 {
     function __construct()
@@ -59,9 +67,15 @@ class model
         }
     }
 
-    function mod_get_appointments_data()
+    function mod_get_appointments_data($id)
     {
-        $query = "SELECT * FROM `tbl_myclinicappointment_appointments`";
+        if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'admin2'){
+
+            $query = "SELECT * FROM `tbl_myclinicappointment_appointments`";
+        }
+        else{
+            $query = "SELECT * FROM `tbl_myclinicappointment_appointments` WHERE `doctor_name` = '" . $id . "'";
+        }
         $query_result = $this->mysqli->query($query);
 
         if ($query_result) {
@@ -121,8 +135,107 @@ class model
 
     function mod_get_administrators_data()
     {
-        // $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `id` != '" . $_SESSION['id'] . "'";
-        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts`";
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `user_type` != 'doctor'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+
+    function mod_get_administrators_data_by_id($id)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+    
+    function mod_get_notifications_data_by_id($id)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_notifications` WHERE `useraccount_id` = '" . $id . "' AND `status` = 'unclicked'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+    
+    function mod_get_notifications($id)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_notifications` WHERE `useraccount_id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+
+    function mod_get_doctors_data_by_id($useraccount_id)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_doctors` WHERE `useraccount_id` = '" . $useraccount_id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+
+    function mod_get_doctors_data_by_specialization($specialization)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_doctors` WHERE `specialization` = '" . $specialization . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result) {
@@ -152,9 +265,9 @@ class model
         }
     }
 
-    function mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $appointment_date, $contact_method, $reasons, $payment_method)
+    function mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $contact_method, $reasons)
     {
-        $query = "INSERT INTO `tbl_myclinicappointment_appointments` (`id`, `first_name`, `last_name`, `email_address`, `mobile_number`, `appointment_date`, `contact_method`, `reasons`, `payment_method`, `status`) VALUES (NULL, '" . $first_name . "', '" . $last_name . "', '" . $email_address . "', '" . $mobile_number . "', '" . $appointment_date . "', '" . $contact_method . "', '" . $reasons . "', '" . $payment_method . "', 'Pending')";
+        $query = "INSERT INTO `tbl_myclinicappointment_appointments` (`id`, `first_name`, `last_name`, `email_address`, `mobile_number`, `doctor_specialization`, `doctor_name`, `appointment_date`, `contact_method`, `reasons`, `status`) VALUES (NULL, '" . $first_name . "', '" . $last_name . "', '" . $email_address . "', '" . $mobile_number . "', '" . $doctor_specialization . "', '" . $doctor_name . "', '" . $appointment_date . "', '" . $contact_method . "', '" . $reasons . "', 'Pending')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -178,7 +291,31 @@ class model
 
     function mod_add_new_admin($name, $username, $password, $image)
     {
-        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'admin')";
+        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'admin2')";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_add_new_doctor($name, $username, $password, $image)
+    {
+        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'doctor')";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_add_doctor($useraccount_id, $name)
+    {
+        $query = "INSERT INTO `tbl_myclinicappointment_doctors` (`id`, `useraccount_id`, `name`) VALUES (NULL, '" . $useraccount_id . "', '" . $name . "')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -211,10 +348,10 @@ class model
             return false;
         }
     }
-    
+
     function mod_update_new_admin($name, $username, $password, $image, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `password` = '". $password ."', `image` = '". $image ."' WHERE `id` = '". $id ."'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `password` = '" . $password . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -223,10 +360,10 @@ class model
             return false;
         }
     }
-    
+
     function mod_update_new_admin_with_image_no_password($name, $username, $image, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `image` = '". $image ."' WHERE `id` = '". $id ."'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -235,10 +372,10 @@ class model
             return false;
         }
     }
-    
+
     function mod_update_new_admin_no_image_with_password($name, $username, $password, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."', `password` = '". $password ."' WHERE `id` = '". $id ."'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `password` = '" . $password . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -247,10 +384,10 @@ class model
             return false;
         }
     }
-    
+
     function mod_update_new_admin_no_image_no_password($name, $username, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '". $name ."', `username` = '". $username ."' WHERE `id` = '". $id ."'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -268,6 +405,38 @@ class model
         if ($query_result && $this->mysqli->affected_rows > 0) {
             return true;
         } else {
+            return false;
+        }
+    }
+}
+
+class email
+{
+    function Send($name, $email, $subject, $message)
+    {
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true);
+
+        try {
+            // SMTP configuration for Gmail
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'myclinicappointment.123@gmail.com';
+            $mail->Password   = 'jopccmtulyrfewuz';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = 587;
+            $mail->isHTML(true);
+            $mail->setFrom('myclinicappointment.123@gmail.com', 'My Clinic Appointment');
+            $mail->addAddress($email, $name);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+
+            // Send the email
+            $mail->send();
+
+            return true;
+        } catch (Exception $e) {
             return false;
         }
     }
