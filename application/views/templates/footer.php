@@ -56,9 +56,11 @@
                     <div class="form-floating mb-3">
                         <textarea class="form-control" id="join_us_description" type="text" placeholder="..." style="height: 10rem" required></textarea>
                         <label for="join_us_description">Tell me about yourself</label>
-                        <p>file for uploading-pending work</p>
                     </div>
-
+                    <div class="form-floating mb-3">
+                        <h5>Upload Documents</h5>
+                        <input class="form-control" type="file" id="fileInput" name="fileInput" accept=".pdf, .doc, .docx, .txt">
+                    </div>
                     <div class="d-grid">
                         <button class="btn btn-primary rounded-pill btn-lg" id="join_us_submit" type="submit">Submit</button>
                     </div>
@@ -204,7 +206,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Payment Options -->
+                    <!-- TNC&PP -->
                     <div class="mb-3">
                         <input class="form-check-input" type="checkbox" name="privacy_and_terms" required />
                         <label class="form-check-label" for="privacy_and_term">
@@ -335,12 +337,50 @@
                         <textarea id="application_details_description" class="form-control" rows="5" readonly></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+                <div class="col-12 py-3">
+                    <h3>Select a Message Template</h3>
+                    <form>
+                        <label for="template">
+                            <h5>Choose a template:</h5>
+                        </label>
+                        <select id="template" name="template">
+                            <option value="template1">Request for Additional Documents</option>
+                            <option value="template2">Important Announcement</option>
+                            <option value="template3">Thank you letter</option>
+                        </select>
+                        <br>
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" class="form-control" rows="5" placeholder="Write your message here..."></textarea>
+                        <br>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary rounded-pill" data-bs-dismiss="modal">Send</button>
+                        </div>
+                        <script>
+                            var templateDropdown = document.getElementById('template');
+                            var messageTextarea = document.getElementById('message');
+                            templateDropdown.addEventListener('change', function() {
+                                var selectedTemplate = templateDropdown.value;
+                                switch (selectedTemplate) {
+                                    case 'template1':
+                                        messageTextarea.value = 'Subject: Request for Additional Documents - Doctors Application\n\nDear [Recipient].,\n\nI trust this letter finds you well. We appreciate the time and effort you have invested in your application at our website. We have carefully reviewed your initial submission and are interested in moving forward with your application.\n\nHowever, to proceed with the evaluation process, we kindly request the submission of the following additional documents:\n\n [Insert Needed Document]\n\nKindly submit the requested documents to our official email address\nEmail: myclinicappointment.123@gmail.com\nAnd feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nSincerely,\nMyClinicAppointment Staff\n\n This email is system generated. Do not reply.';
+                                        break;
+                                    case 'template2':
+                                        messageTextarea.value = 'Subject: Important Announcement\n\nDear [Recipient],\n\nI am writing to inform you about [important information].\n\nPlease feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nBest regards,\nMyClinicAppointment Staff';
+                                        break;
+                                    case 'template3':
+                                        messageTextarea.value = 'Dear [Recipient],\n\nThank you for your recent [action]. Your [efforts/contribution] are greatly appreciated.\n\nKind regards,\nMyClinicAppointment Staff';
+                                        break;
+                                    default:
+                                        messageTextarea.value = ''; // Default to an empty message
+                                }
+                            });
+                        </script>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Appointment Details Modal -->
@@ -618,10 +658,12 @@
                         <label for="doctor_temp_useraccount_password">Password</label>
                     </div>
                     <div class="d-grid">
-                        <input type="hidden" name="doctor_temp_useraccount_id" id="doctor_temp_useraccount_id">
-                        <input type="hidden" name="doctor_temp_useraccount_name" id="doctor_temp_useraccount_name">
-                        <input type="hidden" name="doctor_temp_useraccount_email" id="doctor_temp_useraccount_email">
-                        <input type="hidden" name="approve_application" value="true">
+                        <input type="" name="doctor_temp_useraccount_id" id="doctor_temp_useraccount_id">
+                        <input type="" name="doctor_temp_useraccount_name" id="doctor_temp_useraccount_name">
+                        <input type="" name="doctor_temp_useraccount_email" id="doctor_temp_useraccount_email">
+                        <input type="" name="doctor_temp_useraccount_mobile_num" id="doctor_temp_useraccount_mobile_num">
+                        <input type="" name="doctor_temp_useraccount_specialization" id="doctor_temp_useraccount_specialization">
+                        <input type="" name="approve_application" value="true">
                         <button type="submit" class="btn btn-primary rounded-pill btn-lg" id="doctor_temp_useraccount_submit">Submit</button>
                     </div>
                 </form>
@@ -639,19 +681,20 @@
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
-                <form id="update_doctor_schedule" action="javascript:void(0)">
+                <form id="update_doctor_schedule_form" action="javascript:void(0)">
                     <div class="form-floating mb-3">
                         <div class="col-lg-12 col-12">
                             <p class="h5 fs-5">Weekly Schedule</p>
                             <div class="mt-3">
-                                <select class="form-select py-3" id="update_doctor_schedule_by_date_and_time_weekly">
-                                    <option value="monday">Monday</option>
-                                    <option value="tuesday">Tuesday</option>
-                                    <option value="wednesday">Wednesday</option>
-                                    <option value="thursday">Thursday</option>
-                                    <option value="friday">Friday</option>
-                                    <option value="saturday">Saturday</option>
-                                    <option value="sunday">Sunday</option>
+                                <select class="form-select py-3" id="update_doctor_schedule_by_date_and_time_week" required>
+                                    <option value disabled selected>-- Select Day --</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
                                 </select>
                             </div>
                         </div>
@@ -661,7 +704,7 @@
                             <p class="h5 fs-5">Start Time</p>
                         </div>
                         <div class="mt-3">
-                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_start_time" type="time">
+                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_time_in" type="time" required>
                         </div>
                     </div>
                     <div class="form-floating mt-3">
@@ -669,9 +712,12 @@
                             <p class="h5 fs-5">End Time</p>
                         </div>
                         <div class="mt-3">
-                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_end_time" type="time">
+                            <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_time_out" type="time" required>
                         </div>
                     </div>
+                    
+                    <input type="hidden" id="update_doctor_schedule_by_date_and_time_useraccount_id">
+
                     <div class="d-grid mt-3"><button class="btn btn-primary rounded-pill btn-lg" id="update_doctor_schedule_by_date_and_time_submit" type="submit">Submit</button></div>
                 </form>
             </div>
@@ -706,6 +752,65 @@
     </div>
 </div>
 
+<!-- Update Doctor's Profile Modal -->
+<div class="modal fade" id="update_doctor_profile" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Edit Profile</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="update_doctor_form" action="javascript:void(0)">
+                    <div class="text-center">
+                        <img id="update_doctor_image_display" class="rounded-circle border" width="200px" height="200px" src="./assets/img/default_image_user.png">
+                    </div>
+                    <div class="form-group mt-3">
+                        <div class="input-group">
+                            <input type="file" id="update_doctor_image" class="form-control" accept=".jpg, .jpeg, .png">
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_name" type="text" placeholder="..." />
+                        <label for="update_doctor_name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_email" type="email" placeholder="@gmail.com" />
+                        <label for="update_doctor_email">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_contact" type="tel" placeholder="123-456-7890" />
+                        <label for="update_doctor_contact">Contact Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_fee" type="tel" placeholder="5000" />
+                        <label for="update_doctor_contact">Consulatant Fee</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_username" type="text" placeholder="..." />
+                        <label for="update_doctor_username">Username</label>
+                        <small class="text-danger d-none" id="update_doctor_error_username">Username already exists!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_password" type="password" placeholder="..." />
+                        <label for="update_doctor_password">Password</label>
+                        <small class="text-danger d-none" id="update_doctor_error_password">Password do not match!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_doctor_confirm_password" type="password" placeholder="..." />
+                        <label for="update_doctor_confirm_password">Confirm Password</label>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary rounded-pill btn-lg" id="update_doctor_submit" type="submit">Submit</button>
+                        <input type="hidden" id="update_doctor_old_username">
+                        <input type="hidden" id="update_doctor_id">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap core JS -->
 <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- JQuery -->
@@ -724,6 +829,7 @@
 <script>
     $(document).ready(function() {
         var error = <?= isset($_SESSION['error']) ? json_encode($_SESSION['error']) : json_encode(array()) ?>;
+        var id = "<?= isset($_SESSION['id']) ? $_SESSION['id'] : null ?>";
 
         var server = "./application/controllers/controller.php";
 
@@ -752,54 +858,22 @@
             var approve_reject_btn = parent_td.find(".approve_reject_btn");
 
             var id = $(this).attr("application_id");
-            var last_name = parent_tr.children("td.last_name").children("a").text();
-            var first_name = parent_tr.children("td.first_name").text();
-            var email = parent_tr.children("td.email_address").text();
+            var last_name = $(this).attr("application_last_name");
+            var first_name = $(this).attr("application_first_name");
+            var email = $(this).attr("application_email");
+            var mobile_num = $(this).attr("application_mobile_number");
+            var specialization = $(this).attr("application_specialization");
 
             $("#doctor_temp_useraccount_id").val(id);
             $("#doctor_temp_useraccount_name").val(first_name + " " + last_name);
             $("#doctor_temp_useraccount_email").val(email);
+            $("#doctor_temp_useraccount_mobile_num").val(mobile_num);
+            $("#doctor_temp_useraccount_specialization").val(specialization);
         })
 
         $("#doctor_temp_useraccount_form").submit(function() {
-            // var application_id = $("#doctor_temp_useraccount_id").val();
-            // var name = $("#doctor_temp_useraccount_name").val();
-            // var username = $("#doctor_temp_useraccount_username").val();
-            // var password = $("#doctor_temp_useraccount_password").val();
-
-            // var formData = new FormData();
-
-            // formData.append('application_id', application_id);
-            // formData.append('name', name);
-            // formData.append('username', username);
-            // formData.append('password', password);
-            // formData.append('status', 'Approved');
-            // formData.append('approve_application', true);
-
             $("#doctor_temp_useraccount_submit").text("Processing Request...");
             $("#doctor_temp_useraccount_submit").attr("disabled", true);
-
-            // $.ajax({
-            //     url: './application/controllers/controller.php',
-            //     data: formData,
-            //     type: 'POST',
-            //     dataType: 'JSON',
-            //     processData: false,
-            //     contentType: false,
-            //     success: function(response) {
-            //         if (response) {
-            //             location.href = "./applications";
-            //         } else {
-            //             $("#doctor_temp_useraccount_error_username").removeClass("d-none");
-
-            //             $("#doctor_temp_useraccount_submit").text("Submit");
-            //             $("#doctor_temp_useraccount_submit").removeAttr("disabled");
-            //         }
-            //     },
-            //     error: function(xhr, status, error) {
-            //         console.error(error);
-            //     }
-            // });
         })
 
         $("#doctor_temp_useraccount_username").keypress(function() {
@@ -836,10 +910,6 @@
                     console.error(error);
                 }
             });
-        })
-
-        $("#doctor_schedule_date_and_time_edit").click(function() {
-            $("#doctor_schedule_date_and_time_edit_edit").removeClass("d-none");
         })
 
         $("#login_form").submit(function() {
@@ -1354,7 +1424,6 @@
             formData.append('specialization', specialization);
             formData.append('get_doctor_specialization', true);
 
-
             $.ajax({
                 url: server,
                 data: formData,
@@ -1366,7 +1435,6 @@
                     $('#book_now_doctor_name').empty();
 
                     for (const user of response) {
-
                         $('#book_now_doctor_name').append($('<option>', {
                             value: user.useraccount_id,
                             text: user.name
@@ -1382,6 +1450,50 @@
 
         $("#btn_notification").click(function() {
             console.log("Pressed!");
+        })
+
+        $("#doctor_schedule_date_and_time_edit").click(function(){
+            var useraccount_id = id;
+
+            $("#update_doctor_schedule_by_date_and_time_useraccount_id").val(useraccount_id);
+        })
+        
+        $("#update_doctor_schedule_form").submit(function(){
+            var useraccount_id = $("#update_doctor_schedule_by_date_and_time_useraccount_id");
+            var week = $("#update_doctor_schedule_by_date_and_time_week");
+            var time_in = $("#update_doctor_schedule_by_date_and_time_time_in");
+            var time_out = $("#update_doctor_schedule_by_date_and_time_time_out");
+            var submit = $("#update_doctor_schedule_by_date_and_time_submit");
+
+            submit.text("Processing Request...");
+            submit.attr("disabled", true);
+
+            week.attr("disabled", true);
+            time_in.attr("disabled", true);
+            time_out.attr("disabled", true);
+
+            var formData = new FormData();
+            
+            formData.append('useraccount_id', useraccount_id.val());
+            formData.append('week', week.val());
+            formData.append('time_in', time_in.val());
+            formData.append('time_out', time_out.val());
+            formData.append('update_doctor_schedule', true);
+            
+            $.ajax({
+                url: server,
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./"
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
         })
 
         function formatDate(inputDate) {

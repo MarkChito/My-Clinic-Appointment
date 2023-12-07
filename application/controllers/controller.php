@@ -75,6 +75,10 @@ class controller
             if (isset($_POST['get_doctor_specialization'])) {
                 $this->get_doctors_data_by_specialization();
             }
+
+            if (isset($_POST['update_doctor_schedule'])) {
+                $this->update_doctor_schedule();
+            }
         }
     }
 
@@ -125,6 +129,13 @@ class controller
         $notification = $this->model->mod_get_notifications($id);
 
         return $notification;
+    }
+    
+    function check_week($useraccount_id, $week)
+    {
+        $week = $this->model->mod_check_week($useraccount_id, $week);
+
+        return $week;
     }
 
     function get_doctors_data_by_specialization()
@@ -268,7 +279,7 @@ class controller
             $_SESSION['error'] = array(
                 "error_type" => "success",
                 "error_title" => "Success",
-                "error_message" => "Application is added to the Database!"
+                "error_message" => "Application Approved!"
             );
         } else {
             $_SESSION['error'] = array(
@@ -299,7 +310,7 @@ class controller
             $_SESSION['error'] = array(
                 "error_type" => "success",
                 "error_title" => "Success",
-                "error_message" => "Application is added to the Database!"
+                "error_message" => "Application Approved!"
             );
         } else {
             $_SESSION['error'] = array(
@@ -375,6 +386,54 @@ class controller
 
             echo json_encode(true);
         }
+    }
+
+    function update_doctor_schedule()
+    {
+        $useraccount_id = $_POST["useraccount_id"];
+        $week = $_POST["week"];
+        $time_in = $_POST["time_in"];
+        $time_out = $_POST["time_out"];
+
+        $week_exists = $this->model->mod_check_week($useraccount_id, $week);
+
+        if ($week_exists) {
+            // Update
+            $update_doctor_schedule = $this->model->mod_update_doctor_schedule($useraccount_id, $week, $time_in, $time_out);
+
+            if ($update_doctor_schedule) {
+                $_SESSION['error'] = array(
+                    "error_type" => "success",
+                    "error_title" => "Success",
+                    "error_message" => "Doctor schedule is updated!"
+                );
+            } else {
+                $_SESSION['error'] = array(
+                    "error_type" => "error",
+                    "error_title" => "Oops..",
+                    "error_message" => "There is an error while processing your request!"
+                );
+            }
+        } else {
+            // Insert
+            $add_doctor_schedule = $this->model->mod_add_doctor_schedule($useraccount_id, $week, $time_in, $time_out);
+
+            if ($add_doctor_schedule) {
+                $_SESSION['error'] = array(
+                    "error_type" => "success",
+                    "error_title" => "Success",
+                    "error_message" => "Doctor schedule is added!"
+                );
+            } else {
+                $_SESSION['error'] = array(
+                    "error_type" => "error",
+                    "error_title" => "Oops..",
+                    "error_message" => "There is an error while processing your request!"
+                );
+            }
+        }
+
+        echo json_encode(true);
     }
 
     function update_admin()
@@ -507,6 +566,8 @@ class controller
         $username = $_POST["doctor_temp_useraccount_username"];
         $password = $_POST["doctor_temp_useraccount_password"];
         $email = $_POST["doctor_temp_useraccount_email"];
+        $mobile_num = $_POST["doctor_temp_useraccount_mobile_num"];
+        $specialization = $_POST["doctor_temp_useraccount_specialization"];
         $status = "Approved";
         $image = "default_image_user.png";
 
@@ -527,7 +588,7 @@ class controller
             if ($recently_added_doctor) {
                 $useraccount_id = $recently_added_doctor[0]->id;
 
-                $doctor_added = $this->model->mod_add_doctor($useraccount_id, $name);
+                $doctor_added = $this->model->mod_add_doctor($useraccount_id, $name, $email, $mobile_num, $specialization);
 
                 $subject = "Your Application has been approved!";
                 $message = "Congratratulations!, this is your temporary email and password. <br><br><strong>Username:</strong>" . $username . "<br><strong>Password:</strong>" . $password;

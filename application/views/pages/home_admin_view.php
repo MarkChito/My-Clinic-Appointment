@@ -28,8 +28,6 @@ $admins = $controller->get_administrators_data_by_id($_SESSION["id"]);
                             <img src="./assets/notifbell.png" alt="Notification Bell Icon" width="30">
                             <span id="notification-count" style="color:White;">0</span>
                             &nbsp;
-                            <img src="./assets/email.png" alt="message Icon" width="30">
-                            <span id="message-count" style="color:White;">0</span>
                         </div>
                     </div>
                 </div>

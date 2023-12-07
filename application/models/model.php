@@ -67,13 +67,32 @@ class model
         }
     }
 
+    function mod_check_week($useraccount_id, $week)
+    {
+        $query = "SELECT * FROM `tbl_myclinicappointment_doctors_schedule` WHERE `useraccount_id` = '" . $useraccount_id . "' AND `week` = '" . $week . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result) {
+            $results = array();
+
+            while ($row = $query_result->fetch_assoc()) {
+                $results[] = (object) $row;
+            }
+
+            $query_result->close();
+
+            return $results;
+        } else {
+            return null;
+        }
+    }
+
     function mod_get_appointments_data($id)
     {
-        if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'admin2'){
+        if ($_SESSION['usertype'] == 'admin' || $_SESSION['usertype'] == 'admin2') {
 
             $query = "SELECT * FROM `tbl_myclinicappointment_appointments`";
-        }
-        else{
+        } else {
             $query = "SELECT * FROM `tbl_myclinicappointment_appointments` WHERE `doctor_name` = '" . $id . "'";
         }
         $query_result = $this->mysqli->query($query);
@@ -172,7 +191,7 @@ class model
             return null;
         }
     }
-    
+
     function mod_get_notifications_data_by_id($id)
     {
         $query = "SELECT * FROM `tbl_myclinicappointment_notifications` WHERE `useraccount_id` = '" . $id . "' AND `status` = 'unclicked'";
@@ -192,7 +211,7 @@ class model
             return null;
         }
     }
-    
+
     function mod_get_notifications($id)
     {
         $query = "SELECT * FROM `tbl_myclinicappointment_notifications` WHERE `useraccount_id` = '" . $id . "'";
@@ -289,6 +308,18 @@ class model
         }
     }
 
+    function mod_add_doctor_schedule($useraccount_id, $week, $time_in, $time_out)
+    {
+        $query = "INSERT INTO `tbl_myclinicappointment_doctors_schedule` (`id`, `useraccount_id`, `week`, `time_in`, `time_out`) VALUES (NULL, '" . $useraccount_id . "', '" . $week . "', '" . $time_in . "', '" . $time_out . "')";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function mod_add_new_admin($name, $username, $password, $image)
     {
         $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'admin2')";
@@ -313,9 +344,9 @@ class model
         }
     }
 
-    function mod_add_doctor($useraccount_id, $name)
+    function mod_add_doctor($useraccount_id, $name, $email, $mobile_num, $specialization)
     {
-        $query = "INSERT INTO `tbl_myclinicappointment_doctors` (`id`, `useraccount_id`, `name`) VALUES (NULL, '" . $useraccount_id . "', '" . $name . "')";
+        $query = "INSERT INTO `tbl_myclinicappointment_doctors` (`id`, `useraccount_id`, `name`, `email`, `mobile_num`, `specialization`) VALUES (NULL, '" . $useraccount_id . "', '" . $name . "', '" . $email . "', '" . $mobile_num . "', '" . $specialization . "')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -328,6 +359,18 @@ class model
     function mod_update_application($status, $id)
     {
         $query = "UPDATE `tbl_myclinicappointment_applications` SET `status` = '" . $status . "' WHERE `tbl_myclinicappointment_applications`.`id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_doctor_schedule($useraccount_id, $week, $time_in, $time_out)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_doctors_schedule` SET `time_in` = '" . $time_in . "', `time_out` = '" . $time_out . "' WHERE `useraccount_id` = '" . $useraccount_id . "' AND `week` = '" . $week . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
