@@ -28,6 +28,7 @@ class controller
         $this->email = new email();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
             if (isset($_POST['login'])) {
                 $this->login();
             }
@@ -78,6 +79,10 @@ class controller
 
             if (isset($_POST['update_doctor_schedule'])) {
                 $this->update_doctor_schedule();
+            }
+
+            if (isset($_POST['update_doctor'])) {
+                $this->update_doctor();
             }
         }
     }
@@ -130,7 +135,7 @@ class controller
 
         return $notification;
     }
-    
+
     function check_week($useraccount_id, $week)
     {
         $week = $this->model->mod_check_week($useraccount_id, $week);
@@ -143,7 +148,11 @@ class controller
         $specialization = $_POST['specialization'];
         $specializationz = $this->model->mod_get_doctors_data_by_specialization($specialization);
 
-        echo json_encode($specializationz);
+        if ($specializationz) {
+            echo json_encode($specializationz);
+        } else {
+            echo json_encode(null);
+        }
     }
 
     function get_doctors_data_by_id($useraccount_id)
@@ -279,7 +288,7 @@ class controller
             $_SESSION['error'] = array(
                 "error_type" => "success",
                 "error_title" => "Success",
-                "error_message" => "Application Approved!"
+                "error_message" => "Application Submitted!"
             );
         } else {
             $_SESSION['error'] = array(
@@ -301,16 +310,17 @@ class controller
         $doctor_specialization = $_POST['doctor_specialization'];
         $doctor_name = $_POST['doctor_name'];
         $appointment_date = $_POST['appointment_date'];
+        $appointment_time = $_POST['appointment_time'];
         $contact_method = $_POST['contact_method'];
         $reasons = $_POST['reasons'];
 
-        $added = $this->model->mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $contact_method, $reasons);
+        $added = $this->model->mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $appointment_time, $contact_method, $reasons);
 
         if ($added) {
             $_SESSION['error'] = array(
                 "error_type" => "success",
                 "error_title" => "Success",
-                "error_message" => "Application Approved!"
+                "error_message" => "Appointment Submitted!"
             );
         } else {
             $_SESSION['error'] = array(
@@ -440,6 +450,8 @@ class controller
     {
         $id = $_POST["update_admin_id"];
         $name = $_POST["update_admin_name"];
+        $email = $_POST["update_admin_email"];
+        $mobile_number = $_POST["update_admin_mobile_number"];
         $username = $_POST["update_admin_username"];
         $old_username = $_POST["update_admin_old_username"];
         $password = $_POST["update_admin_password"];
@@ -458,7 +470,7 @@ class controller
                         $_SESSION['error'] = array(
                             "error_type" => "success",
                             "error_title" => "Success",
-                            "error_message" => "Administrator is added successfully!"
+                            "error_message" => "Administrator is updated successfully!"
                         );
                     } else {
                         $_SESSION['error'] = array(
@@ -476,13 +488,13 @@ class controller
                 }
             } else if ($image && !$password) {
                 if ($this->upload_image($image)) {
-                    $updated = $this->model->mod_update_new_admin_with_image_no_password($name, $username, basename($image["name"]), $id);
+                    $updated = $this->model->mod_update_new_admin_with_image_no_password($name, $username, $email, $mobile_number, basename($image["name"]), $id);
 
                     if ($updated) {
                         $_SESSION['error'] = array(
                             "error_type" => "success",
                             "error_title" => "Success",
-                            "error_message" => "Administrator is added successfully!"
+                            "error_message" => "Administrator is updated successfully!"
                         );
                     } else {
                         $_SESSION['error'] = array(
@@ -499,13 +511,13 @@ class controller
                     );
                 }
             } else if (!$image && $password) {
-                $updated = $this->model->mod_update_new_admin_no_image_with_password($name, $username, password_hash($password, PASSWORD_BCRYPT), $id);
+                $updated = $this->model->mod_update_new_admin_no_image_with_password($name, $username, $email, $mobile_number, password_hash($password, PASSWORD_BCRYPT), $id);
 
                 if ($updated) {
                     $_SESSION['error'] = array(
                         "error_type" => "success",
                         "error_title" => "Success",
-                        "error_message" => "Administrator is added successfully!"
+                        "error_message" => "Administrator is updated successfully!"
                     );
                 } else {
                     $_SESSION['error'] = array(
@@ -515,13 +527,19 @@ class controller
                     );
                 }
             } else {
-                $updated = $this->model->mod_update_new_admin_no_image_no_password($name, $username, $id);
+                $updated = $this->model->mod_update_new_admin_no_image_no_password($name, $email, $mobile_number, $username, $id);
 
                 if ($updated) {
                     $_SESSION['error'] = array(
                         "error_type" => "success",
                         "error_title" => "Success",
-                        "error_message" => "Administrator is added successfully!"
+                        "error_message" => "Administrator is updated successfully!"
+                    );
+                } else if ($updated == "") {
+                    $_SESSION['error'] = array(
+                        "error_type" => "warning",
+                        "error_title" => "No Changes",
+                        "error_message" => "There are no changes made!"
                     );
                 } else {
                     $_SESSION['error'] = array(
@@ -581,32 +599,64 @@ class controller
             );
         } else {
             $this->model->mod_update_application($status, $application_id);
-            $this->model->mod_add_new_doctor($name, $username, password_hash($password, PASSWORD_BCRYPT), $image);
+            $this->model->mod_add_new_doctor($name, $email, $mobile_num, $username, password_hash($password, PASSWORD_BCRYPT), $image);
 
             $recently_added_doctor = $this->model->mod_get_useraccount_data($username);
 
-            if ($recently_added_doctor) {
-                $useraccount_id = $recently_added_doctor[0]->id;
+            $useraccount_id = $recently_added_doctor[0]->id;
 
-                $doctor_added = $this->model->mod_add_doctor($useraccount_id, $name, $email, $mobile_num, $specialization);
+            $doctor_added = $this->model->mod_add_doctor($useraccount_id, $name, $email, $mobile_num, $specialization);
 
-                $subject = "Your Application has been approved!";
-                $message = "Congratratulations!, this is your temporary email and password. <br><br><strong>Username:</strong>" . $username . "<br><strong>Password:</strong>" . $password;
+            $subject = "Your Application has been approved!";
+            $message = "Congratratulations!, this is your temporary email and password. <br><br><strong>Username:</strong>" . $username . "<br><strong>Password:</strong>" . $password;
 
-                if ($doctor_added) {
-                    $send_success = $this->email->Send($name, $email, $subject, $message);
+            if ($doctor_added) {
+                $send_success = $this->email->Send($name, $email, $subject, $message);
 
-                    $email_message = "check you email.";
+                $email_message = "check you email.";
 
-                    if (!$send_success) {
-                        $email_message = "but email is not sent. Please contact us in our \"Contact Us\" page.";
-                    }
+                if (!$send_success) {
+                    $email_message = "but email is not sent. Please contact us in our \"Contact Us\" page.";
+                }
 
-                    $_SESSION['error'] = array(
-                        "error_type" => "success",
-                        "error_title" => "Success",
-                        "error_message" => "Doctor is added successfully, " . $email_message
-                    );
+                $_SESSION['error'] = array(
+                    "error_type" => "success",
+                    "error_title" => "Success",
+                    "error_message" => "Doctor is added successfully, " . $email_message
+                );
+            } else {
+                $_SESSION['error'] = array(
+                    "error_type" => "error",
+                    "error_title" => "Oops..",
+                    "error_message" => "There is an error while processing your request!"
+                );
+            }
+        }
+
+        header("Location: ../../applications");
+    }
+
+    function update_doctor()
+    {
+        $id = $_POST["id"];
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        $mobile_number = $_POST["mobile_number"];
+        $payment = $_POST["payment"];
+        $specialization = $_POST["specialization"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $old_username = $_POST["old_username"];
+        $image = isset($_FILES["image"]) ? $_FILES["image"] : null;
+
+        $username_exists = $this->model->mod_get_useraccount_data($username);
+
+        if ($username_exists && ($username != $old_username)) {
+            echo json_encode(false);
+        } else {
+            if ($image && $password) {
+                if ($this->upload_image($image)) {
+                    $this->model->mod_update_doctor_useraccount_with_image_and_password($name, $email, $mobile_number, $username, password_hash($password, PASSWORD_BCRYPT), basename($image["name"]), $id);
                 } else {
                     $_SESSION['error'] = array(
                         "error_type" => "error",
@@ -614,9 +664,31 @@ class controller
                         "error_message" => "There is an error while processing your request!"
                     );
                 }
+            } elseif ($image && !$password) {
+                if ($this->upload_image($image)) {
+                    $this->model->mod_update_doctor_useraccount_with_image_and_no_password($name, $email, $mobile_number, $username, basename($image["name"]), $id);
+                } else {
+                    $_SESSION['error'] = array(
+                        "error_type" => "error",
+                        "error_title" => "Oops..",
+                        "error_message" => "There is an error while processing your request!"
+                    );
+                }
+            } elseif (!$image && $password) {
+                $this->model->mod_update_doctor_useraccount_with_no_image_and_password($name, $email, $mobile_number, $username, password_hash($password, PASSWORD_BCRYPT), $id);
+            } else {
+                $this->model->mod_update_doctor_useraccount_with_no_image_and_no_password($name, $email, $mobile_number, $username, $id);
             }
 
-            header("Location: ../../applications");
+            $this->model->mod_update_doctor($name, $email, $mobile_number, $payment, $specialization, $id);
+
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Doctor information is updated successfully!"
+            );
+
+            echo json_encode(true);
         }
     }
 

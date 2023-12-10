@@ -20,7 +20,7 @@ include_once "./application/views/templates/header.php";
             <div class="row gx-5 align-items-center">
                 <div class="col-xl-6">
                     <div class="mb-5 mb-lg-0 text-center text-xl-start">
-                        <h1 class="display-1 lh-1 mb-3">The fastest way to consult your doctor.</h1>
+                        <h1 class="display-1 1h-1 mb-3">The fastest way to consult your doctor.</h1>
                         <p class="lead fw-normal text-muted mb-5">Your health is our priority, and MyClinicAppointment makes it easy anytime, anywhere, and everywhere!</p>
                         <div class="d-flex flex-column flex-xl-row align-items-center">
                             <button class="btn btn-primary rounded-pill mb-2 me-2 mb-xl-0 d-flex justify-content-center align-items-center" style="width: 125px;" data-bs-toggle="modal" data-bs-target="#book_now">
@@ -88,7 +88,7 @@ include_once "./application/views/templates/header.php";
                     <div class="row">
                         <div class="col-xxl-3 col-md-6 col-12 text-center">
                             <img class="img-thumbnail mb-2" src="assets/img/team/kate.png" style="width:100%; height:300px;">
-                            <h3 class="font-alt mb-0">Kate Tungol</h3>
+                            <h3 class="font-alt mb-0">Katherine Tungol</h3>
                             <p>Project Lead</p>
                         </div>
                         <div class="col-xxl-3 col-md-6 col-12 text-center">
@@ -160,7 +160,7 @@ include_once "./application/views/templates/header.php";
                             <div class="col-xxl-3 col-8 mb-xxl-0 mb-3 text-center">
                                 <div class="card">
                                     <div class="card-header bg-gradient-primary-to-secondary">
-                                        <img src="assets/img/doctors/sugarplum.png" class="rounded-circle border bg-light" alt="Doctor 1" width="100px" height="100px">
+                                        <img src="assets/img/team/errol.png" class="rounded-circle border bg-light" alt="Doctor 1" width="100px" height="100px">
                                     </div>
                                     <div class="card-body">
                                         <h3 class="font-alt">Dr. Sugarplum</h3>
@@ -377,7 +377,7 @@ include_once "./application/views/templates/header.php";
                         </div>
                         <div class="col-xl-auto">
                             <div class="h5 fs-3 text-white">Make A Payment</div>
-                            <p class="lead fw-normal text-white ">Confirm your appointment details and proceed to secure online payment, if applicable. You will receive a confirmation email with all the details of your scheduled appointment.</p>
+                            <p class="lead fw-normal text-white ">Cayment, if applicable. You will receive a confirmation email with all the details of your scheduled appointment.</p>
                         </div>
                     </div>
 

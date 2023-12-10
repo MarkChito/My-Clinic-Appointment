@@ -84,8 +84,11 @@
                     <div class="row">
                         <div class="col-auto mb-3">
                             <div class="form-floating">
-                                <small class="text-danger">*Welcome to MyClinicAppointment Online Specialty Consultation Scheduler.</small><br>
-                                <small class="text-danger">This form is for sending your appointment request, which will still be process and confirmed by the MyClinicAppointment staff. After sending your request, allow our team to review your request for 2-4 hours (within the operational hours of 8AM to 5PM) to contact you via email, call or text.</small>
+                                <small class="text-success">
+                                    <strong>Note:</strong>
+                                    Welcome to MyClinicAppointment Online Specialty Consultation Scheduler.
+                                    This form is for sending your appointment request, which will still be process and confirmed by the MyClinicAppointment staff. After sending your request, allow our team to review your request for 2-4 hours (within the operational hours of 8AM to 5PM) to contact you via email, call or text.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -181,11 +184,21 @@
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
-                                    <input class="form-control" id="book_now_appointment_date" type="datetime-local" required />
+                                    <input class="form-control" id="book_now_appointment_date" type="date" required />
                                     <label for="book_now_appointment_date">Appointment Date</label>
                                 </div>
+                                <small class="text-danger d-none" id="error_book_now_appointment_date">Invalid Appointment Date</small>
                             </div>
                             <div class="col-lg-6 col-12 mb-lg-0 mb-3">
+                                <div class="form-floating">
+                                    <input class="form-control" id="book_now_appointment_time" type="time" required />
+                                    <label for="book_now_appointment_time">Appointment Time</label>
+                                </div>
+                                <small class="text-danger d-none" id="error_book_now_appointment_time">Time should be between 8 AM and 5 PM</small>
+                            </div>
+                        </div>
+                        <div class="row mb-lg-3 mb-0">
+                            <div class="col mb-lg-0 mb-3">
                                 <div class="form-floating">
                                     <select class="form-select" id="book_now_contact_method" required>
                                         <option value="" disabled selected>Choose...</option>
@@ -200,7 +213,7 @@
                         <div class="row mb-lg-3 mb-0">
                             <div class="col-12 mb-lg-0 mb-3">
                                 <div class="form-floating">
-                                    <textarea class="form-control" id="book_now_reasons" style="height: 10rem;" placeholder="..." required></textarea>
+                                    <textarea class="form-control" id="book_now_reasons" style="height: 6rem;" placeholder="..." required></textarea>
                                     <label for="book_now_reasons">Reason/s for arranging this appointment</label>
                                 </div>
                             </div>
@@ -208,8 +221,8 @@
                     </div>
                     <!-- TNC&PP -->
                     <div class="mb-3">
-                        <input class="form-check-input" type="checkbox" name="privacy_and_terms" required />
-                        <label class="form-check-label" for="privacy_and_term">
+                        <input class="form-check-input" type="checkbox" id="privacy_and_terms" required />
+                        <label class="form-check-label" for="privacy_and_terms">
                             I have read, understood, and accepted the <a href="privacy.php" target="_blank">Privacy Policy</a> and <a href="tnx.php" target="_blank">Terms & Conditions</a>.
                         </label>
                     </div>
@@ -383,7 +396,7 @@
 </div>
 </div>
 
-<!-- Appointment Details Modal -->
+<!-- Appointils Modal -->
 <div class="modal fade" id="appointment_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -613,6 +626,21 @@
                         <input class="form-control" id="update_admin_name" type="text" placeholder="..." required />
                         <label for="update_admin_name">Name</label>
                     </div>
+                    <!--
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_email" type="email" placeholder="..." required />
+                        <label for="update_admin_name">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_number" type="number" placeholder="..." required />
+                        <label for="update_admin_name">Mobile Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_admin_payroll" type="text" placeholder="..." required />
+                        <label for="update_admin_name">payroll</label>
+                    </div>
+
+                        -->
                     <div class="form-floating mb-3">
                         <input class="form-control" id="update_admin_username" type="text" placeholder="..." required />
                         <label for="update_admin_username">Username</label>
@@ -631,6 +659,63 @@
                         <button class="btn btn-primary rounded-pill btn-lg" id="update_admin_submit" type="submit">Submit</button>
                         <input type="hidden" id="update_admin_old_username">
                         <input type="hidden" id="update_admin_id">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Home Admin Modal -->
+<div class="modal fade" id="update_home_administrator" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Update Administrator</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="update_home_admin_form" action="javascript:void(0)">
+                    <div class="mb-3">
+                        <div class="text-center">
+                            <img id="update_home_admin_image_display" class="rounded-circle border" width="200px" height="200px" src="./assets/img/default_image_user.png">
+                        </div>
+                        <div class="form-group mt-3">
+                            <div class="input-group">
+                                <input type="file" id="update_home_admin_image" class="form-control" accept=".jpg, .jpeg, .png">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_name" type="text" placeholder="..." required />
+                        <label for="update_home_admin_name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_email" type="email" placeholder="..." required />
+                        <label for="update_home_admin_name">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_mobile_number" type="text" placeholder="..." required />
+                        <label for="update_home_admin_name">Mobile Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_username" type="text" placeholder="..." required />
+                        <label for="update_home_admin_username">Username</label>
+                        <small class="text-danger d-none" id="update_home_admin_error_username">Username already exists!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_password" type="password" placeholder="..." />
+                        <label for="update_home_admin_password">Password</label>
+                        <small class="text-danger d-none" id="update_home_admin_error_password">Password do not match!</small>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="update_home_admin_confirm_password" type="password" placeholder="..." />
+                        <label for="update_home_admin_confirm_password">Confirm Password</label>
+                    </div>
+                    <div class="d-grid">
+                        <button class="btn btn-primary rounded-pill btn-lg" id="update_home_admin_admin_submit" type="submit">Submit</button>
+                        <input type="hidden" id="update_home_admin_old_username">
+                        <input type="hidden" id="update_home_admin_id">
                     </div>
                 </form>
             </div>
@@ -658,12 +743,12 @@
                         <label for="doctor_temp_useraccount_password">Password</label>
                     </div>
                     <div class="d-grid">
-                        <input type="" name="doctor_temp_useraccount_id" id="doctor_temp_useraccount_id">
-                        <input type="" name="doctor_temp_useraccount_name" id="doctor_temp_useraccount_name">
-                        <input type="" name="doctor_temp_useraccount_email" id="doctor_temp_useraccount_email">
-                        <input type="" name="doctor_temp_useraccount_mobile_num" id="doctor_temp_useraccount_mobile_num">
-                        <input type="" name="doctor_temp_useraccount_specialization" id="doctor_temp_useraccount_specialization">
-                        <input type="" name="approve_application" value="true">
+                        <input type="hidden" name="doctor_temp_useraccount_id" id="doctor_temp_useraccount_id">
+                        <input type="hidden" name="doctor_temp_useraccount_name" id="doctor_temp_useraccount_name">
+                        <input type="hidden" name="doctor_temp_useraccount_email" id="doctor_temp_useraccount_email">
+                        <input type="hidden" name="doctor_temp_useraccount_mobile_num" id="doctor_temp_useraccount_mobile_num">
+                        <input type="hidden" name="doctor_temp_useraccount_specialization" id="doctor_temp_useraccount_specialization">
+                        <input type="hidden" name="approve_application" value="true">
                         <button type="submit" class="btn btn-primary rounded-pill btn-lg" id="doctor_temp_useraccount_submit">Submit</button>
                     </div>
                 </form>
@@ -715,7 +800,7 @@
                             <input class="form-control py-3" id="update_doctor_schedule_by_date_and_time_time_out" type="time" required>
                         </div>
                     </div>
-                    
+
                     <input type="hidden" id="update_doctor_schedule_by_date_and_time_useraccount_id">
 
                     <div class="d-grid mt-3"><button class="btn btn-primary rounded-pill btn-lg" id="update_doctor_schedule_by_date_and_time_submit" type="submit">Submit</button></div>
@@ -754,7 +839,7 @@
 
 <!-- Update Doctor's Profile Modal -->
 <div class="modal fade" id="update_doctor_profile" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary-to-secondary p-4">
                 <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Edit Profile</h5>
@@ -765,40 +850,89 @@
                     <div class="text-center">
                         <img id="update_doctor_image_display" class="rounded-circle border" width="200px" height="200px" src="./assets/img/default_image_user.png">
                     </div>
-                    <div class="form-group mt-3">
+                    <div class="form-group mt-3 mb-3">
                         <div class="input-group">
                             <input type="file" id="update_doctor_image" class="form-control" accept=".jpg, .jpeg, .png">
                         </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_name" type="text" placeholder="..." />
-                        <label for="update_doctor_name">Name</label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_name" type="text" placeholder="..." />
+                                <label for="update_doctor_name">Name</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_email" type="email" placeholder="@gmail.com" />
+                                <label for="update_doctor_email">Email</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_email" type="email" placeholder="@gmail.com" />
-                        <label for="update_doctor_email">Email</label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_contact" type="tel" placeholder="123-456-7890" />
+                                <label for="update_doctor_contact">Contact Number</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_fee" type="tel" placeholder="5000" />
+                                <label for="update_doctor_contact">Consulatant Fee</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_contact" type="tel" placeholder="123-456-7890" />
-                        <label for="update_doctor_contact">Contact Number</label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="update_doctor_specialization" required>
+                                    <option value="" disabled selected>Choose...</option>
+                                    <option value="Internal Medicine">Internal Medicine</option>
+                                    <option value="Surgery">Surgery</option>
+                                    <option value="Obstetrics and Gynecology">Obstetrics and Gynecology</option>
+                                    <option value="Pediatrics">Pediatrics</option>
+                                    <option value="Psychiatry">Psychiatry</option>
+                                    <option value="Anesthesiology">Anesthesiology</option>
+                                    <option value="Radiology">Radiology</option>
+                                    <option value="Ophthalmology">Ophthalmology</option>
+                                    <option value="Otolaryngology">Otolaryngology</option>
+                                    <option value="Emergency Medicine">Emergency Medicine</option>
+                                    <option value="Pathology">Pathology</option>
+                                    <option value="Neurology">Neurology</option>
+                                    <option value="Allergy and Immunology">Allergy and Immunology</option>
+                                    <option value="Infectious Disease">Infectious Disease</option>
+                                    <option value="Physical Medicine and Rehabilitation">Physical Medicine and Rehabilitation</option>
+                                    <option value="Endocrinology">Endocrinology</option>
+                                    <option value="Hematology">Hematology</option>
+                                    <option value="Oncology">Oncology</option>
+                                    <option value="Nuclear Medicine">Nuclear Medicine</option>
+                                </select>
+                                <label for="update_doctor_specialization">Specialization</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_username" type="text" placeholder="..." />
+                                <label for="update_doctor_username">Username</label>
+                                <small class="text-danger d-none" id="update_doctor_error_username">Username already exists!</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_fee" type="tel" placeholder="5000" />
-                        <label for="update_doctor_contact">Consulatant Fee</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_username" type="text" placeholder="..." />
-                        <label for="update_doctor_username">Username</label>
-                        <small class="text-danger d-none" id="update_doctor_error_username">Username already exists!</small>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_password" type="password" placeholder="..." />
-                        <label for="update_doctor_password">Password</label>
-                        <small class="text-danger d-none" id="update_doctor_error_password">Password do not match!</small>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="update_doctor_confirm_password" type="password" placeholder="..." />
-                        <label for="update_doctor_confirm_password">Confirm Password</label>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_password" type="password" placeholder="..." />
+                                <label for="update_doctor_password">Password</label>
+                                <small class="text-danger d-none" id="update_doctor_error_password">Password do not match!</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_confirm_password" type="password" placeholder="..." />
+                                <label for="update_doctor_confirm_password">Confirm Password</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-grid">
                         <button class="btn btn-primary rounded-pill btn-lg" id="update_doctor_submit" type="submit">Submit</button>
@@ -1071,49 +1205,60 @@
             var doctor_specialization = $("#book_now_doctor_specialization");
             var doctor_name = $("#book_now_doctor_name");
             var appointment_date = $("#book_now_appointment_date");
+            var appointment_time = $("#book_now_appointment_time");
             var contact_method = $("#book_now_contact_method");
             var reasons = $("#book_now_reasons");
             var submit = $("#book_now_submit");
 
-            var formData = new FormData();
+            if (validate_date(appointment_date.val())) {
+                if (validateTime(appointment_time.val())) {
+                    var formData = new FormData();
 
-            formData.append('first_name', first_name.val());
-            formData.append('last_name', last_name.val());
-            formData.append('email_address', email_address.val());
-            formData.append('mobile_number', mobile_number.val());
-            formData.append('doctor_specialization', doctor_specialization.val());
-            formData.append('doctor_name', doctor_name.val());
-            formData.append('appointment_date', formatDate(appointment_date.val()));
-            formData.append('contact_method', contact_method.val());
-            formData.append('reasons', reasons.val());
-            formData.append('book_now', true);
+                    formData.append('first_name', first_name.val());
+                    formData.append('last_name', last_name.val());
+                    formData.append('email_address', email_address.val());
+                    formData.append('mobile_number', mobile_number.val());
+                    formData.append('doctor_specialization', doctor_specialization.val());
+                    formData.append('doctor_name', doctor_name.val());
+                    formData.append('appointment_date', appointment_date.val());
+                    formData.append('appointment_time', appointment_time.val());
+                    formData.append('contact_method', contact_method.val());
+                    formData.append('reasons', reasons.val());
+                    formData.append('book_now', true);
 
-            first_name.attr("disabled", true);
-            last_name.attr("disabled", true);
-            email_address.attr("disabled", true);
-            mobile_number.attr("disabled", true);
-            doctor_specialization.attr("disabled", true);
-            doctor_name.attr("disabled", true);
-            appointment_date.attr("disabled", true);
-            contact_method.attr("disabled", true);
-            reasons.attr("disabled", true);
-            submit.attr("disabled", true);
-            submit.text("Processing Request...");
+                    first_name.attr("disabled", true);
+                    last_name.attr("disabled", true);
+                    email_address.attr("disabled", true);
+                    mobile_number.attr("disabled", true);
+                    doctor_specialization.attr("disabled", true);
+                    doctor_name.attr("disabled", true);
+                    appointment_date.attr("disabled", true);
+                    appointment_time.attr("disabled", true);
+                    contact_method.attr("disabled", true);
+                    reasons.attr("disabled", true);
+                    submit.attr("disabled", true);
+                    submit.text("Processing Request...");
 
-            $.ajax({
-                url: './application/controllers/controller.php',
-                data: formData,
-                type: 'POST',
-                dataType: 'JSON',
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    location.href = "./";
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
+                    $.ajax({
+                        url: './application/controllers/controller.php',
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'JSON',
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            location.href = "./";
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    $("#error_book_now_appointment_time").removeClass("d-none");
                 }
-            });
+            } else {
+                $("#error_book_now_appointment_date").removeClass("d-none");
+            }
         })
 
         $("#contact_us_form").submit(function() {
@@ -1222,6 +1367,24 @@
             $("#admin_image_display").attr("src", image);
         })
 
+        $("#update_home_admin").click(function() {
+            var id = $(this).attr("admin_id");
+            var name = $(this).attr("admin_name");
+            var email = $(this).attr("admin_email");
+            var mobile_number = $(this).attr("admin_mobile_number");
+            var username = $(this).attr("admin_username");
+            var image = $(this).attr("admin_image");
+
+            $("#update_home_admin_id").val(id);
+            $("#update_home_admin_name").val(name);
+            $("#update_home_admin_email").val(email);
+            $("#update_home_admin_mobile_number").val(mobile_number);
+            $("#update_home_admin_username").val(username);
+            $("#update_home_admin_old_username").val(username);
+
+            $("#update_home_admin_image_display").attr("src", "./assets/img/admins/" + image);
+        })
+
         $("#new_admin_image").change(function() {
             var image = $("#new_admin_image")[0].files[0];
 
@@ -1311,6 +1474,18 @@
             $('#update_admin_image_display').attr('src', window.URL.createObjectURL(image));
         })
 
+        $("#update_home_admin_image").change(function() {
+            var image = $("#update_home_admin_image")[0].files[0];
+
+            $('#update_home_admin_image_display').attr('src', window.URL.createObjectURL(image));
+        })
+
+        $("#update_doctor_image").change(function() {
+            var image = $("#update_doctor_image")[0].files[0];
+
+            $('#update_doctor_image_display').attr('src', window.URL.createObjectURL(image));
+        })
+
         $("#update_admin_form").submit(function() {
             var id = $("#update_admin_id").val();
             var name = $("#update_admin_name").val();
@@ -1357,6 +1532,65 @@
 
                             $("#update_admin_submit").text("Submit");
                             $("#update_admin_submit").removeAttr("disabled");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        })
+
+        $("#update_home_admin_form").submit(function() {
+            var home_id = $("#update_home_admin_id").val();
+            var home_name = $("#update_home_admin_name").val();
+            var home_email = $("#update_home_admin_email").val();
+            var home_mobile_number = $("#update_home_admin_mobile_number").val();
+            var home_username = $("#update_home_admin_username").val();
+            var home_old_username = $("#update_home_admin_old_username").val();
+            var home_password = $("#update_home_admin_password").val();
+            var home_confirm_password = $("#update_home_admin_confirm_password").val();
+            var home_image = $("#update_home_admin_image")[0].files[0];
+
+            var errors = 0;
+
+            if ((home_password || home_confirm_password) && (home_password != home_confirm_password)) {
+                $("#update_home_admin_error_password").removeClass("d-none");
+
+                errors++;
+            }
+
+            if (errors == 0) {
+                $("#update_home_admin_submit").text("Processing Request...");
+                $("#update_home_admin_submit").attr("disabled", true);
+
+                var formData = new FormData();
+
+                formData.append('update_admin_id', home_id);
+                formData.append('update_admin_name', home_name);
+                formData.append('update_admin_email', home_email);
+                formData.append('update_admin_mobile_number', home_mobile_number);
+                formData.append('update_admin_username', home_username);
+                formData.append('update_admin_old_username', home_old_username);
+                formData.append('update_admin_password', home_password);
+                formData.append('update_admin_image', home_image);
+                formData.append('update_admin', true);
+
+                $.ajax({
+                    url: './application/controllers/controller.php',
+                    data: formData,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response) {
+                            location.href = "./";
+                        } else {
+                            $("#update_home_admin_error_username").removeClass("d-none");
+
+                            $("#update_home_admin_home_submit").text("Submit");
+                            $("#update_home_admin_home_submit").removeAttr("disabled");
                         }
                     },
                     error: function(xhr, status, error) {
@@ -1434,13 +1668,22 @@
                 success: function(response) {
                     $('#book_now_doctor_name').empty();
 
-                    for (const user of response) {
-                        $('#book_now_doctor_name').append($('<option>', {
-                            value: user.useraccount_id,
-                            text: user.name
-                        }));
+                    $('#book_now_doctor_name').append($('<option>', {
+                        value: null,
+                        text: "Choose...",
+                        disabled: true,
+                        selected: true
+                    }));
+                    if (response) {
+                        for (const user of response) {
+                            $('#book_now_doctor_name').append($('<option>', {
+                                value: user.useraccount_id,
+                                text: user.name
+                            }));
+                        }
+                    } else {
+                        console.log("test");
                     }
-
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -1452,13 +1695,13 @@
             console.log("Pressed!");
         })
 
-        $("#doctor_schedule_date_and_time_edit").click(function(){
+        $("#doctor_schedule_date_and_time_edit").click(function() {
             var useraccount_id = id;
 
             $("#update_doctor_schedule_by_date_and_time_useraccount_id").val(useraccount_id);
         })
-        
-        $("#update_doctor_schedule_form").submit(function(){
+
+        $("#update_doctor_schedule_form").submit(function() {
             var useraccount_id = $("#update_doctor_schedule_by_date_and_time_useraccount_id");
             var week = $("#update_doctor_schedule_by_date_and_time_week");
             var time_in = $("#update_doctor_schedule_by_date_and_time_time_in");
@@ -1473,13 +1716,13 @@
             time_out.attr("disabled", true);
 
             var formData = new FormData();
-            
+
             formData.append('useraccount_id', useraccount_id.val());
             formData.append('week', week.val());
             formData.append('time_in', time_in.val());
             formData.append('time_out', time_out.val());
             formData.append('update_doctor_schedule', true);
-            
+
             $.ajax({
                 url: server,
                 data: formData,
@@ -1494,6 +1737,103 @@
                     console.error(error);
                 }
             });
+        })
+
+        $("#book_now_appointment_date").change(function() {
+            $("#error_book_now_appointment_date").addClass("d-none");
+        })
+
+        $("#book_now_appointment_time").change(function() {
+            $("#error_book_now_appointment_time").addClass("d-none");
+        })
+
+        $("#btn_my_profile").click(function() {
+            var id = $(this).attr("doctor_id");
+            var name = $(this).attr("doctor_name");
+            var email = $(this).attr("doctor_email");
+            var mobile_number = $(this).attr("doctor_mobile_number");
+            var payment = $(this).attr("doctor_payment");
+            var username = $(this).attr("doctor_username");
+            var specialization = $(this).attr("doctor_specialization");
+            var image = $(this).attr("doctor_image");
+
+            $("#update_doctor_name").val(name);
+            $("#update_doctor_email").val(email);
+            $("#update_doctor_contact").val(mobile_number);
+            $("#update_doctor_fee").val(payment);
+            $("#update_doctor_specialization").val(specialization);
+            $("#update_doctor_username").val(username);
+
+            $("#update_doctor_id").val(id);
+            $("#update_doctor_old_username").val(username);
+
+            $("#update_doctor_image_display").attr("src", "./assets/img/admins/" + image);
+        })
+
+        $("#update_doctor_form").submit(function() {
+            var id = $("#update_doctor_id").val();
+            var name = $("#update_doctor_name").val();
+            var email = $("#update_doctor_email").val();
+            var mobile_number = $("#update_doctor_contact").val();
+            var payment = $("#update_doctor_fee").val();
+            var specialization = $("#update_doctor_specialization").val();
+            var username = $("#update_doctor_username").val();
+            var password = $("#update_doctor_password").val();
+            var confirm_password = $("#update_doctor_confirm_password").val();
+            var old_username = $("#update_doctor_old_username").val();
+            var image = $("#update_doctor_image")[0].files[0];
+
+            if (password == confirm_password) {
+                $("#update_doctor_submit").html("Processing Request...");
+                $("#update_doctor_submit").attr("disabled", true);
+
+                var formData = new FormData();
+
+                formData.append('id', id);
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('mobile_number', mobile_number);
+                formData.append('payment', payment);
+                formData.append('specialization', specialization);
+                formData.append('username', username);
+                formData.append('password', password);
+                formData.append('old_username', old_username);
+                formData.append('image', image);
+                formData.append('update_doctor', true);
+
+                $.ajax({
+                    url: server,
+                    data: formData,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response) {
+                            location.href = "./";
+                        } else {
+                            $("#update_doctor_error_username").removeClass("d-none");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            } else {
+                $("#update_doctor_error_password").removeClass("d-none");
+            }
+        })
+
+        $("#update_doctor_username").keypress(function() {
+            $("#update_doctor_error_username").addClass("d-none");
+        })
+
+        $("#update_doctor_password").keypress(function() {
+            $("#update_doctor_error_password").addClass("d-none");
+        })
+
+        $("#update_doctor_confirm_password").keypress(function() {
+            $("#update_doctor_error_password").addClass("d-none");
         })
 
         function formatDate(inputDate) {
@@ -1523,6 +1863,35 @@
                 text: data.error_message,
                 icon: data.error_type
             });
+        }
+
+        function validate_date(date) {
+            var inputDate = new Date(date);
+            var currentDate = new Date();
+
+            if (inputDate < currentDate) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function validateTime(time) {
+            const startTime = new Date();
+            startTime.setHours(8, 0, 0); // Set start time to 8:00 AM
+
+            const endTime = new Date();
+            endTime.setHours(17, 0, 0); // Set end time to 5:00 PM
+
+            const userTime = new Date();
+            const timeParts = time.split(':');
+            userTime.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]), 0); // Parse user input time
+
+            if (userTime >= startTime && userTime <= endTime) {
+                return true;
+            } else {
+                return false;
+            }
         }
     })
 </script>

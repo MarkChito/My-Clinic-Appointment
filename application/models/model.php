@@ -284,9 +284,9 @@ class model
         }
     }
 
-    function mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $contact_method, $reasons)
+    function mod_add_appointment($first_name, $last_name, $email_address, $mobile_number, $doctor_specialization, $doctor_name, $appointment_date, $appointment_time, $contact_method, $reasons)
     {
-        $query = "INSERT INTO `tbl_myclinicappointment_appointments` (`id`, `first_name`, `last_name`, `email_address`, `mobile_number`, `doctor_specialization`, `doctor_name`, `appointment_date`, `contact_method`, `reasons`, `status`) VALUES (NULL, '" . $first_name . "', '" . $last_name . "', '" . $email_address . "', '" . $mobile_number . "', '" . $doctor_specialization . "', '" . $doctor_name . "', '" . $appointment_date . "', '" . $contact_method . "', '" . $reasons . "', 'Pending')";
+        $query = "INSERT INTO `tbl_myclinicappointment_appointments` (`id`, `first_name`, `last_name`, `email_address`, `mobile_number`, `doctor_specialization`, `doctor_name`, `appointment_date`, `appointment_time`, `contact_method`, `reasons`, `status`) VALUES (NULL, '" . $first_name . "', '" . $last_name . "', '" . $email_address . "', '" . $mobile_number . "', '" . $doctor_specialization . "', '" . $doctor_name . "', '" . $appointment_date . "', '" . $appointment_time . "', '" . $contact_method . "', '" . $reasons . "', 'Pending')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -332,9 +332,9 @@ class model
         }
     }
 
-    function mod_add_new_doctor($name, $username, $password, $image)
+    function mod_add_new_doctor($name, $email, $mobile_number, $username, $password, $image)
     {
-        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $username . "', '" . $password . "', '" . $image . "', 'doctor')";
+        $query = "INSERT INTO `tbl_myclinicappointment_useraccounts` (`id`, `name`, `email`, `mobile_number`, `username`, `password`, `image`, `user_type`) VALUES (NULL, '" . $name . "', '" . $email . "', '" . $mobile_number . "', '" . $username . "', '" . $password . "', '" . $image . "', 'doctor')";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -404,9 +404,9 @@ class model
         }
     }
 
-    function mod_update_new_admin_with_image_no_password($name, $username, $image, $id)
+    function mod_update_doctor_useraccount_with_image_and_password($name, $email, $mobile_number, $username, $password, $image, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "', `password` = '" . $password . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -416,9 +416,9 @@ class model
         }
     }
 
-    function mod_update_new_admin_no_image_with_password($name, $username, $password, $id)
+    function mod_update_doctor_useraccount_with_no_image_and_password($name, $email, $mobile_number, $username, $password, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `password` = '" . $password . "' WHERE `id` = '" . $id . "'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "', `password` = '" . $password . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
@@ -428,9 +428,69 @@ class model
         }
     }
 
-    function mod_update_new_admin_no_image_no_password($name, $username, $id)
+    function mod_update_doctor_useraccount_with_image_and_no_password($name, $email, $mobile_number, $username, $image, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "' WHERE `id` = '" . $id . "'";
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_doctor_useraccount_with_no_image_and_no_password($name, $email, $mobile_number, $username, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "' WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_doctor($name, $email, $mobile_number, $payment, $specialization, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_doctors` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_num` = '" . $mobile_number . "', `payment` = '" . $payment . "', `specialization` = '" . $specialization . "' WHERE `useraccount_id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_new_admin_with_image_no_password($name, $username, $email, $mobile_number, $image, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_new_admin_no_image_with_password($name, $username, $email, $mobile_number, $password, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `username` = '" . $username . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `password` = '" . $password . "' WHERE `id` = '" . $id . "'";
+        $query_result = $this->mysqli->query($query);
+
+        if ($query_result && $this->mysqli->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function mod_update_new_admin_no_image_no_password($name, $email, $mobile_number, $username, $id)
+    {
+        $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {

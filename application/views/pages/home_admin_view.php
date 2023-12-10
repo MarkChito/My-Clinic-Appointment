@@ -18,7 +18,7 @@ $admins = $controller->get_administrators_data_by_id($_SESSION["id"]);
             <div class="col-md-12 py-3" style="background-image: linear-gradient(to right, blue, green);">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="./assets/img/default_image_user.png" alt="Admin Image" class="rounded-circle bg-white" style="width: 200px ; height: 200px;">
+                        <img src="./assets/img/admins/<?= $admins[0]->image ?>" alt="Admin Image" class="rounded-circle bg-white" style="width: 200px ; height: 200px;">
                     </div>
                     <div class="col-md-7 d-flex align-items-center">
                         <h1 class="text-white text-center">Welcome back, Admin <?= $admins[0]->name ?>!</h1>
@@ -46,13 +46,10 @@ $admins = $controller->get_administrators_data_by_id($_SESSION["id"]);
                             <strong>Name: </strong><span><?= $admins[0]->name ?></span>
                         </div>
                         <div class="col-md-12 mb-2">
-                            <strong>Email: </strong><span></span>
+                            <strong>Email: </strong><span><?= $admins[0]->email ?></span>
                         </div>
                         <div class="col-md-12 mb-2">
-                            <strong>Mobile Number: </strong><span>09123456789</span>
-                        </div>
-                        <div class="col-md-12 mb-2">
-                            <strong>Payroll: </strong><span></span>
+                            <strong>Mobile Number: </strong><span><?= $admins[0]->mobile_number ?></span>
                         </div>
                         <div class="col-md-12 mb-2">
                             <strong>Username: </strong><span><?= $admins[0]->username ?></span>
@@ -64,7 +61,7 @@ $admins = $controller->get_administrators_data_by_id($_SESSION["id"]);
                             <strong>Image: </strong><span><?= $admins[0]->image ?></span>
                         </div>
                         <div class="col-md-12 mb-2">
-                            <button type="button" class="btn btn-primary float-end">Change Profile</button>
+                            <button type="button" id="update_home_admin" admin_id="<?= $admins[0]->id ?>" admin_name="<?= $admins[0]->name ?>" admin_email="<?= $admins[0]->email ?>" admin_mobile_number="<?= $admins[0]->mobile_number ?>" admin_username="<?= $admins[0]->username ?>" admin_image="<?= $admins[0]->image ?>" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#update_home_administrator">Update Information</button>
                         </div>
                     </div>
                 </div>

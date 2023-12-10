@@ -20,7 +20,7 @@ $notifications_all = $controller->get_notifications($_SESSION["id"]);
             <div class="col-md-12 py-3" style="background-image: linear-gradient(to right, blue, green);">
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="./assets/img/doctors/<?= $admins[0]->image ?>" alt="Admin Image" class="rounded-circle bg-white" style="width: 200px ; height: 200px;">
+                        <img src="./assets/img/admins/<?= $admins[0]->image ?>" alt="Admin Image" class="rounded-circle bg-white" style="width: 200px ; height: 200px;">
 
                     </div>
                     <div class="col-md-7 d-flex align-items-center">
@@ -42,17 +42,20 @@ $notifications_all = $controller->get_notifications($_SESSION["id"]);
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3>My Profile
-                                <u type=button style="font-size:medium; color:DodgerBlue;" data-bs-toggle="modal" data-bs-target="#update_doctor_profile">edit</u>
-                            </h3>
+                        <div class="d-flex">
+                            <h3 class="d-flex me-2">My Profile</h3>
+                                <a href="javascript:void(0)" doctor_id="<?= $admins[0]->id ?>" doctor_name="<?= $doctors_info[0]->name ?>" doctor_email="<?= $doctors_info[0]->email ?>" doctor_mobile_number="<?= $doctors_info[0]->mobile_num ?>" doctor_username="<?= $admins[0]->username ?>" doctor_specialization="<?= $doctors_info[0]->specialization ?>" doctor_image="<?= $admins[0]->image ?>" doctor_payment="<?= $doctors_info[0]->payment ?>" id="btn_my_profile" title="Update Profile"  data-bs-toggle="modal" data-bs-target="#update_doctor_profile">
+                                    <i class="fas fa-edit"></i>
+                                </a>                            
+                        </div>
                             <div class="col-md-12 mb-2">
                                 <strong>Name: </strong><span><?= $doctors_info[0]->name ?></span>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <strong>Date of Birth: </strong><span>01/01/1980</span>
+                                <strong>Date of Birth: </strong><span>Not Yet Available</span>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <strong>Gender: </strong><span>Female</span>
+                                <strong>Gender: </strong><span>Not Yet Available</span>
                             </div>
                             <div class="col-md-12 mb-2">
                                 <strong>Email: </strong><span><?= $doctors_info[0]->email ?></span>
@@ -61,7 +64,7 @@ $notifications_all = $controller->get_notifications($_SESSION["id"]);
                                 <strong>Mobile Number: </strong><span><?= $doctors_info[0]->mobile_num ?></span>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <strong>Fee: </strong><span><?= $doctors_info[0]->payment ?></span>
+                                <strong>Fee: </strong><span>₱<?= number_format($doctors_info[0]->payment, 2) ?></span>
                             </div>
                             <div class="col-md-12 mb-2">
                                 <strong>Username: </strong><span><?= $admins[0]->username ?></span>
@@ -70,7 +73,7 @@ $notifications_all = $controller->get_notifications($_SESSION["id"]);
                                 <strong>Password: </strong><span>**********</span>
                             </div>
                             <div class="col-md-12 mb-2">
-                                <strong>Specialization: </strong><span>Surgery</span>
+                                <strong>Specialization: </strong><span><?= $doctors_info[0]->specialization ?></span>
                             </div>
                         </div>
                         <div class="col-6" style="border-left: 2px solid #ddd;">
