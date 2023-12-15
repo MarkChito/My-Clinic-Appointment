@@ -2,16 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\application",
-    "\\application\\controllers",
     "\\application\\models",
     "\\application\\views",
     "\\application\\views\\pages",
+    "\\application\\views\\templates",
     "\\assets",
-    "\\assets\\img\\team",
     "\\plugins",
     "\\plugins\\sweetalert",
     "\\plugins\\sweetalert\\js"
   ],
-  "SelectedNode": "\\application\\views\\pages\\administrators_view.php",
+  "SelectedNode": "\\application\\views\\templates\\footer.php",
   "PreviewInSolutionExplorer": false
 }

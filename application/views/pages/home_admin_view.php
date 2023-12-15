@@ -23,13 +23,6 @@ $admins = $controller->get_administrators_data_by_id($_SESSION["id"]);
                     <div class="col-md-7 d-flex align-items-center">
                         <h1 class="text-white text-center">Welcome back, Admin <?= $admins[0]->name ?>!</h1>
                     </div>
-                    <div class="col-md-2">
-                        <div class="float-end">
-                            <img src="./assets/notifbell.png" alt="Notification Bell Icon" width="30">
-                            <span id="notification-count" style="color:White;">0</span>
-                            &nbsp;
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

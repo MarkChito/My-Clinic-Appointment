@@ -87,7 +87,7 @@
                                 <small class="text-success">
                                     <strong>Note:</strong>
                                     Welcome to MyClinicAppointment Online Specialty Consultation Scheduler.
-                                    This form is for sending your appointment request, which will still be process and confirmed by the MyClinicAppointment staff. After sending your request, allow our team to review your request for 2-4 hours (within the operational hours of 8AM to 5PM) to contact you via email, call or text.
+                                    This form is for sending your appointment request, which will still be process and confirmed by the MyClinicAppointment staff. Give our staff two to four hours (during business hours, 8 a.m. to 5 p.m.) to review your request and get in touch with you by text, phone, or email.. Please note that the time and date of the appointment are subject to change based on the doctor's schedule.
                                 </small>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                     <div class="mb-lg-3 mb-0">
                         <p class="h5 fs-5">Appointment Details</p>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="book_now_doctor_specialization" required>
                                         <option value="" disabled selected>Choose...</option>
@@ -172,12 +172,20 @@
                                     <label for="book_now_doctor_specialization">Specialization</label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-6">
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="book_now_doctor_name" disabled required>
                                         <option value="" disabled selected>Choose...</option>
                                     </select>
                                     <label for="book_now_doctor_name">Doctor</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating mb-3">
+                                    <input class="form-control" id="book_now_doctors_fee" type="text" placeholder="..." required />
+                                    <label for="book_now_doctors_fee">Doctor's Fee</label>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +272,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Administrator Login</h5>
+                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Login</h5>
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body border-0 p-4">
@@ -301,102 +309,105 @@
                 <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Application Details</h5>
                 <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body border-0 p-4">
-                <div class="row mb-xl-3 mb-0">
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>First Name:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_first_name"></span>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Last Name:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_last_name"></span>
-                    </div>
-                </div>
-                <div class="row mb-xl-3 mb-0">
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Email Address:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_email_address"></span>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Mobile Number:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_mobile_number"></span>
-                    </div>
-                </div>
-                <div class="row mb-xl-3 mb-0">
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Medical License Number:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_medical_license_number"></span>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Specialization:</strong>
-                    </div>
-                    <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="application_details_specialization"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <strong>Description:</strong>
-                        <textarea id="application_details_description" class="form-control" rows="5" readonly></textarea>
-                    </div>
-                </div>
-                <div class="col-12 py-3">
-                    <h3>Select a Message Template</h3>
-                    <form>
-                        <label for="template">
-                            <h5>Choose a template:</h5>
-                        </label>
-                        <select id="template" name="template">
-                            <option value="template1">Request for Additional Documents</option>
-                            <option value="template2">Important Announcement</option>
-                            <option value="template3">Thank you letter</option>
-                        </select>
-                        <br>
-                        <label for="message">Your Message:</label>
-                        <textarea id="message" name="message" class="form-control" rows="5" placeholder="Write your message here..."></textarea>
-                        <br>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary rounded-pill" data-bs-dismiss="modal">Send</button>
+            <form action="javascript:void(0)" id="doctor_send_email_form">
+                <div class="modal-body border-0 p-4">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="mt-3">Personal Information</h3>
                         </div>
-                        <script>
-                            var templateDropdown = document.getElementById('template');
-                            var messageTextarea = document.getElementById('message');
-                            templateDropdown.addEventListener('change', function() {
-                                var selectedTemplate = templateDropdown.value;
-                                switch (selectedTemplate) {
-                                    case 'template1':
-                                        messageTextarea.value = 'Subject: Request for Additional Documents - Doctors Application\n\nDear [Recipient].,\n\nI trust this letter finds you well. We appreciate the time and effort you have invested in your application at our website. We have carefully reviewed your initial submission and are interested in moving forward with your application.\n\nHowever, to proceed with the evaluation process, we kindly request the submission of the following additional documents:\n\n [Insert Needed Document]\n\nKindly submit the requested documents to our official email address\nEmail: myclinicappointment.123@gmail.com\nAnd feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nSincerely,\nMyClinicAppointment Staff\n\n This email is system generated. Do not reply.';
-                                        break;
-                                    case 'template2':
-                                        messageTextarea.value = 'Subject: Important Announcement\n\nDear [Recipient],\n\nI am writing to inform you about [important information].\n\nPlease feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nBest regards,\nMyClinicAppointment Staff';
-                                        break;
-                                    case 'template3':
-                                        messageTextarea.value = 'Dear [Recipient],\n\nThank you for your recent [action]. Your [efforts/contribution] are greatly appreciated.\n\nKind regards,\nMyClinicAppointment Staff';
-                                        break;
-                                    default:
-                                        messageTextarea.value = ''; // Default to an empty message
-                                }
-                            });
-                        </script>
-                    </form>
+                        <div class="card-body">
+                            <div class="row mb-xl-3 mb-0">
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>First Name:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_first_name"></span>
+                                </div>
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>Last Name:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_last_name"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-xl-3 mb-0">
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>Email Address:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_email_address"></span>
+                                </div>
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>Mobile Number:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_mobile_number"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-xl-3 mb-0">
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>Medical License #:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_medical_license_number"></span>
+                                </div>
+                                <div class="col-xl-2 col-md-6 col-12">
+                                    <strong>Specialization:</strong>
+                                </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_specialization"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-2 col-12">
+                                    <strong>Description:</strong>
+                                </div>
+                                <div class="col-xl-4 col-12 mb-xl-0 mb-3">
+                                    <span id="application_details_description"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mt-3">Select a Message Template</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group mb-3">
+                                <label for="doctor_send_email_template" class="h5">Choose a Template:</label>
+                                <select id="doctor_send_email_template" class="form-select" required>
+                                    <option value disabled selected>Choose...</option>
+                                    <option value="value_1">Request for Additional Documents - Doctors Application</option>
+                                    <option value="value_2">Important Announcement</option>
+                                    <option value="value_3">Thank You Letter</option>
+                                    <option value="value_4">Missed Appointment - Request for Explanation</option>
+                                    <option value="value_5">Payment Confirmation</option>
+                                    <option value="value_6">Reminder: Online Appointment</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="doctor_send_email_subject" class="h5">Subject:</label>
+                                <input type="text" class="form-control" id="doctor_send_email_subject" placeholder="Write your subject here...">
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor_send_email_message" class="h5">Your Message:</label>
+                                <textarea id="doctor_send_email_message" class="form-control" rows="10" placeholder="Write your message here..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="doctor_send_email_email">
+                    <input type="hidden" id="doctor_send_email_name">
+
+                    <button type="submit" id="doctor_send_email_submit" class="btn btn-primary rounded-pill px-4">Send Email</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-</div>
 
-<!-- Appointils Modal -->
+<!-- Appointment Modal -->
 <div class="modal fade" id="appointment_details" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -447,14 +458,6 @@
                         <span id="appointment_details_contact_method"></span>
                     </div>
                 </div>
-                <div class="row mb-xl-3 mb-0">
-                    <div class="col-xl-2 col-md-6 col-12">
-                        <strong>Payment Method:</strong>
-                    </div>
-                    <div class="col-xl-10 col-md-6 col-12 mb-xl-0 mb-3">
-                        <span id="appointment_details_payment_method"></span>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12">
                         <strong>Reasons:</strong>
@@ -462,8 +465,45 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
+            <div class="modal-body border-0 p-4">
+                <h3>Select a Message Template</h3>
+                <form>
+                    <label for="template">
+                        <h5>Choose a template:</h5>
+                    </label>
+                    <select id="templatep" name="template">
+                        <option value="template4">Notification of Appointment Denial</option>
+                        <option value="template5">Appointment Approval Letter</option>
+                        <option value="template6">Payment Request Letter</option>
+                    </select>
+                    <br>
+                    <label for="message">Your Message:</label>
+                    <textarea id="messagep" name="message" class="form-control" rows="5" placeholder="Write your message here..."></textarea>
+                    <br>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary rounded-pill" data-bs-dismiss="modal">Send</button>
+                    </div>
+                    <script>
+                        var templateDropdown = document.getElementById('templatep');
+                        var messageTextarea = document.getElementById('messagep');
+                        templateDropdown.addEventListener('change', function() {
+                            var selectedTemplate = templateDropdown.value;
+                            switch (selectedTemplate) {
+                                case 'template4':
+                                    messageTextarea.value = 'Subject: Notification of Appointment Denial \n\nDear [Patients Name].,\n\nI trust this letter finds you in good health. We appreciate your interest in seeking medical care at MyClinicAppointment. We regret to inform you that, due to [specific reason, e.g., scheduling constraints, availability, etc.], we are unable to accommodate your appointment request at this time.\n\nWhile we regret any inconvenience this may cause, we encourage you to reach out to us if you have urgent medical concerns or if you wish to reschedule your appointment for a future date.\n\nWe appreciate your understanding and look forward to the opportunity to assist you with your healthcare needs in the future.\n\n\n[Your Full Name]\n[Your Title]\nMyClinicAppointment \n\n This email is system generated. Do not reply.';
+                                    break;
+                                case 'template5':
+                                    messageTextarea.value = 'Subject: Approval of Your Scheduled Appointment\n\nDear [Recipient],\n\nI am pleased to inform you that your appointment request has been successfully processed, and we are delighted to approve your scheduled appointment with [Doctors Name/Department] at myclinicappointment. We appreciate your choice in selecting our facility for your healthcare needs.\n\nAppointment Details:\n\nDate: [Appointment Date]\nTime: [Appointment Time]\nZoom-Meeting Link: [Meet Link]\n\nPlease ensure you arrive at least [specified time, e.g., 15 minutes] before your scheduled appointment time to complete any necessary paperwork and registration. If there are any specific preparations required for your appointment, our staff will provide you with the necessary information.\n\nWe look forward to providing you with quality healthcare services and addressing any concerns or questions you may have. If you need to reschedule or cancel your appointment, kindly contact our scheduling department at [contact information] at least [specify time frame, e.g., 24 hours] in advance.\n\nThank you for choosing MyClinicAppointment. We appreciate the opportunity to serve you, and we are committed to ensuring your experience is both comfortable and beneficial.\n\nBest regards,\n\n[Your Full Name]\n[Your Title]\nMyClinicAppointment \n\n This email is system generated. Do not reply.';
+                                    break;
+                                case 'template6':
+                                    messageTextarea.value = 'Subject: Payment Request \n\nDear [Recipient],\n\nI trust this letter finds you in good health. We sincerely appreciate your choosing [Doctors Name] and MyClinicAppointment for your recent medical appointment.\n\nThis letter serves as a reminder for the outstanding payment related to your appointment on [Appointment Date] with [Doctors Name]. Please find the details of the outstanding payment below:\n\nAppointment Date: [Appointment Date]\nDoctors Name: [Doctors Name]\nAppointment Type: [Type of Appointment]\nAmount Due: [Amount Due]\n\nWe kindly request you to settle the outstanding amount at your earliest convenience. Timely payment allows us to continue providing quality healthcare services to our patients.\n\nYou can make the payment through one of the following methods:\n\n1.[Provide details for online payment]\n2.[Provide details for online payment]\n\nFor any queries or concerns regarding the payment, please do not hesitate to contact us at thru our Contact Us Page\nThank you for your prompt attention to this matter, and we appreciate your trust in MyClinicAppointment\n\nSincerely,\n\n[Your Full Name]\n[Your Title]\nMyClinicAppointment \n\n This email is system generated. Do not reply.';
+                                    break;
+                                default:
+                                    messageTextarea.value = ''; // Default to an empty message
+                            }
+                        });
+                    </script>
+                </form>
             </div>
         </div>
     </div>
@@ -810,33 +850,6 @@
     </div>
 </div>
 
-<!-- Notifications List Modal -->
-<div class="modal fade" id="notifications_list" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-primary-to-secondary p-4">
-                <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Notifications</h5>
-                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body border-0 p-4">
-                <ul class="list-group">
-                    <?php foreach ($notifications_all as $notification) : ?>
-                        <li class="list-group-item <?= $notification->status == 'unclicked' ? 'unread' : 'read' ?>">
-                            <a href="#" class="text-decoration-none">
-                                <h5 class="mb-1"><?= $notification->title ?></h5>
-                                <p class="mb-1"><?= $notification->details ?></p>
-                            </a>
-                        </li>
-                    <?php endforeach ?>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger rounded-pill" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Update Doctor's Profile Modal -->
 <div class="modal fade" id="update_doctor_profile" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -855,6 +868,8 @@
                             <input type="file" id="update_doctor_image" class="form-control" accept=".jpg, .jpeg, .png">
                         </div>
                     </div>
+                    <hr>
+                    <p class="h4">Personal Information</p>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
@@ -866,6 +881,24 @@
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="update_doctor_email" type="email" placeholder="@gmail.com" />
                                 <label for="update_doctor_email">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="update_doctor_date_of_birth" type="text" placeholder="..." />
+                                <label for="update_doctor_date_of_birth">Date of Birth</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="update_doctor_gender" required>
+                                    <option value="" disabled selected>Choose...</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <label for="update_doctor_gender">Gender</label>
                             </div>
                         </div>
                     </div>
@@ -913,6 +946,21 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
+                                <select class="form-select" id="update_doctor_mode_of_payment" required>
+                                    <option value="" disabled selected>Choose...</option>
+                                    <option value="GCash">GCash</option>
+                                    <option value="BPI">BPI</option>
+                                    <option value="PayMaya">PayMaya</option>
+                                </select>
+                                <label for="update_doctor_mode_of_payment">Mode of Payment</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="h4">User Account</p>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" id="update_doctor_username" type="text" placeholder="..." />
                                 <label for="update_doctor_username">Username</label>
                                 <small class="text-danger d-none" id="update_doctor_error_username">Username already exists!</small>
@@ -939,6 +987,44 @@
                         <input type="hidden" id="update_doctor_old_username">
                         <input type="hidden" id="update_doctor_id">
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Approve -->
+<div class="modal fade" id="appointment_approve" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h3 class="modal-title font-alt text-white" id="feedbackModalLabel">Successful Transaction Notes</h3>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="appointment_approve_form" action="javascript:void(0)">
+                    <label for="note">Enter your note:</label><br>
+                    <textarea id="appointment_approve_note" name="appointment_approve_note" rows="8" cols="50" required></textarea><br><br>
+                    <input type="submit" value="Add Note">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Appointment Deny -->
+<div class="modal fade" id="appointment_deny" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary-to-secondary p-4">
+                <h3 class="modal-title font-alt text-white" id="feedbackModalLabel">Failed Transaction Notes</h3>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 p-4">
+                <form id="appointment_deny_form" cols="100" action="javascript:void(0)">
+                    <label for="note">Enter your note:</label><br>
+                    <textarea id="appointment_deny_note" name="appointment_deny_note" rows="8" cols="50" required></textarea><br><br>
+                    <input type="submit" value="Add Note">
                 </form>
             </div>
         </div>
@@ -1314,6 +1400,9 @@
             $("#application_details_medical_license_number").text(medical_license_number);
             $("#application_details_specialization").text(specialization);
             $("#application_details_description").text(description);
+
+            $("#doctor_send_email_email").val(email_address);
+            $("#doctor_send_email_name").val(first_name + " " + last_name);
         })
 
         $(".view_appointment_details").click(function() {
@@ -1751,16 +1840,22 @@
             var id = $(this).attr("doctor_id");
             var name = $(this).attr("doctor_name");
             var email = $(this).attr("doctor_email");
+            var date_of_birth = $(this).attr("doctor_date_of_birth");
+            var gender = $(this).attr("doctor_gender");
             var mobile_number = $(this).attr("doctor_mobile_number");
             var payment = $(this).attr("doctor_payment");
+            var mode_of_payment = $(this).attr("doctor_mode_of_payment");
             var username = $(this).attr("doctor_username");
             var specialization = $(this).attr("doctor_specialization");
             var image = $(this).attr("doctor_image");
 
             $("#update_doctor_name").val(name);
             $("#update_doctor_email").val(email);
+            $("#update_doctor_date_of_birth").val(date_of_birth);
+            $("#update_doctor_gender").val(gender);
             $("#update_doctor_contact").val(mobile_number);
             $("#update_doctor_fee").val(payment);
+            $("#update_doctor_mode_of_payment").val(mode_of_payment);
             $("#update_doctor_specialization").val(specialization);
             $("#update_doctor_username").val(username);
 
@@ -1774,8 +1869,11 @@
             var id = $("#update_doctor_id").val();
             var name = $("#update_doctor_name").val();
             var email = $("#update_doctor_email").val();
+            var date_of_birth = $("#update_doctor_date_of_birth").val();
+            var gender = $("#update_doctor_gender").val();
             var mobile_number = $("#update_doctor_contact").val();
             var payment = $("#update_doctor_fee").val();
+            var mode_of_payment = $("#update_doctor_mode_of_payment").val();
             var specialization = $("#update_doctor_specialization").val();
             var username = $("#update_doctor_username").val();
             var password = $("#update_doctor_password").val();
@@ -1792,8 +1890,11 @@
                 formData.append('id', id);
                 formData.append('name', name);
                 formData.append('email', email);
+                formData.append('date_of_birth', date_of_birth);
+                formData.append('gender', gender);
                 formData.append('mobile_number', mobile_number);
                 formData.append('payment', payment);
+                formData.append('mode_of_payment', mode_of_payment);
                 formData.append('specialization', specialization);
                 formData.append('username', username);
                 formData.append('password', password);
@@ -1835,6 +1936,91 @@
         $("#update_doctor_confirm_password").keypress(function() {
             $("#update_doctor_error_password").addClass("d-none");
         })
+
+        $("#doctor_send_email_template").change(function() {
+            var value = $(this).val();
+
+            select_template_message(value);
+        })
+
+        $("#doctor_send_email_form").submit(function() {
+            var name = $("#doctor_send_email_name").val();
+            var email = $("#doctor_send_email_email").val();
+            var subject = $("#doctor_send_email_subject").val();
+            var message = $("#doctor_send_email_message").val();
+
+            $("#doctor_send_email_submit").attr("disabled", true);
+            $("#doctor_send_email_submit").text("Processing Request...");
+
+            var formData = new FormData();
+
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('subject', subject);
+            formData.append('message', message);
+            formData.append('doctor_send_email', true);
+
+            $.ajax({
+                url: server,
+                data: formData,
+                type: 'POST',
+                dataType: 'JSON',
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.href = "./applications";
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        })
+
+        function select_template_message(value) {
+            var messageTextarea = $("#doctor_send_email_message");
+            var subjectTextarea = $("#doctor_send_email_subject");
+
+            var message = null;
+            var subject = null;
+
+            switch (value) {
+                case "value_1":
+                    message = "Dear [Recipient],\n\nI trust this letter finds you well. We appreciate the time and effort you have invested in your application at our website. We have carefully reviewed your initial submission and are interested in moving forward with your application.\n\nHowever, to proceed with the evaluation process, we kindly request the submission of the following additional documents:\n\n [Insert Needed Document]\n\nKindly submit the requested documents to our official email address\nEmail: myclinicappointment.123@gmail.com\nAnd feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nSincerely,\nMyClinicAppointment Staff\n\n This email is system generated. Do not reply.";
+                    subject = "Request for Additional Documents - Doctors Application";
+
+                    break;
+                case "value_2":
+                    message = "Dear [Recipient],\n\nI am writing to inform you about [important information].\n\nPlease feel free to contact us at our website Contact Us Page if you have any questions or need further clarification.\n\nBest regards,\nMyClinicAppointment Staff";
+                    subject = "Important Announcement";
+
+                    break;
+                case "value_3":
+                    message = "Dear [Recipient],\n\nThank you for your recent [action]. Your [efforts/contribution] are greatly appreciated.\n\nKind regards,\nMyClinicAppointment Staff";
+                    subject = "Thank You Letter";
+
+                    break;
+                case "value_4":
+                    message = "Dear [Recipient],\n\nI hope this letter finds you well. I am writing to bring to your attention the missed appointment we had scheduled on [Date] at [Time]. Unfortunately, you were not present at the designated time, and I wanted to inquire about the circumstances surrounding this matter.\n\nI understand that unforeseen events can arise, and I appreciate your dedication to patient care. However, the missed appointment has left me concerned and seeking clarification. As a patient under your care, I value our appointments and their role in managing my health effectively.\n\nI would appreciate it if you could provide an explanation for the missed appointment and any steps that can be taken to reschedule or address any urgent matters. It is important for me to maintain open communication with my healthcare provider, and I believe addressing this issue will contribute to the overall success of our doctor-patient relationship.\n\nI understand that professionals have demanding schedules, and I appreciate your time and commitment to your patients. I look forward to your response and the opportunity to discuss this matter further.\n\nThank you for your attention to this issue.\n\nSincerely\n\nMyClinicAppointment Staff";
+                    subject = "Missed Appointment - Request for Explanation";
+
+                    break;
+                case "value_5":
+                    message = "Dear Dr. [Doctor's Last Name],\n\nI hope this letter finds you well. We are writing to confirm the recent payment processed to your designated payroll account for the services rendered at MyClinicAppointment. We appreciate your dedication and the exceptional care you provide to our patients.\n\nBelow are the details of the payment:\n\nPayment Amount: [Payment Amount]\nTransaction Reference Number: [Transaction Reference Number]\nPayment Date: [Payment Date]\nPayment Method: Payroll Direct Deposit\n\nThis payment has been processed according to the agreed-upon terms, and it reflects the compensation for your services during the specified period. If you have any questions or concerns regarding this payment, please do not hesitate to contact us.\n\nWe value the contributions you make to our clinic and are grateful for your continued commitment to our patient's well-being. If there are any changes to your payroll information or if you require further assistance, please inform our payroll department promptly.\n\nThank you for your professionalism and dedication to our clinic. We look forward to a continued successful collaboration.\n\nSincerely,\n\n[Your Full Name]\nMyClinicAppointment Staff";
+                    subject = "Payment Confirmation";
+
+                    break;
+                case "value_6":
+                    message = "Dear Dr. [Doctor's Last Name],\n\nI trust this message finds you well. This is a gentle reminder of your scheduled online appointment tomorrow with [Patient's Name] at MyClinicAppointment.\n\n**Appointment Details:**\n\n- **Date:** [Appointment Date]\n- **Time:** [Appointment Time]\n- **Online Platform:** [Specify the online platform or link]\n\nYour presence and expertise during this virtual consultation are highly valued by the patient. We appreciate your commitment to providing quality healthcare services, even in this digital format.\n\nTo join the online appointment, simply click on the provided link at the scheduled time. If you have any technical difficulties or concerns, please let us know at [Clinic Contact Number] or reply to this email.\n\nThank you for your continued dedication to patient care. We look forward to a successful and productive online consultation.\n\nBest regards,\n\n[Your Full Name]\nMyClinicAppointmentStaff";
+                    subject = "Reminder: Online Appointment";
+
+                    break;
+                default:
+                    message = "";
+            }
+
+            subjectTextarea.val(subject);
+            messageTextarea.val(message);
+        }
 
         function formatDate(inputDate) {
             const months = [

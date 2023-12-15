@@ -84,6 +84,10 @@ class controller
             if (isset($_POST['update_doctor'])) {
                 $this->update_doctor();
             }
+
+            if (isset($_POST['doctor_send_email'])) {
+                $this->doctor_send_email();
+            }
         }
     }
 
@@ -641,8 +645,11 @@ class controller
         $id = $_POST["id"];
         $name = $_POST["name"];
         $email = $_POST["email"];
+        $date_of_birth = $_POST["date_of_birth"];
+        $gender = $_POST["gender"];
         $mobile_number = $_POST["mobile_number"];
         $payment = $_POST["payment"];
+        $mode_of_payment = $_POST["mode_of_payment"];
         $specialization = $_POST["specialization"];
         $username = $_POST["username"];
         $password = $_POST["password"];
@@ -677,10 +684,10 @@ class controller
             } elseif (!$image && $password) {
                 $this->model->mod_update_doctor_useraccount_with_no_image_and_password($name, $email, $mobile_number, $username, password_hash($password, PASSWORD_BCRYPT), $id);
             } else {
-                $this->model->mod_update_doctor_useraccount_with_no_image_and_no_password($name, $email, $mobile_number, $username, $id);
+                $this->model->mod_update_doctor_useraccount_with_no_image_and_no_password($name, $email, $mobile_number, $mode_of_payment, $username, $id);
             }
 
-            $this->model->mod_update_doctor($name, $email, $mobile_number, $payment, $specialization, $id);
+            $this->model->mod_update_doctor($name, $email, $date_of_birth, $gender, $mobile_number, $mode_of_payment, $payment, $specialization, $id);
 
             $_SESSION['error'] = array(
                 "error_type" => "success",
@@ -690,6 +697,32 @@ class controller
 
             echo json_encode(true);
         }
+    }
+
+    function doctor_send_email()
+    {
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        $subject = $_POST["subject"];
+        $message = str_replace("\n", "<br>", $_POST["message"]);
+
+        $send_success = $this->email->Send($name, $email, $subject, $message);
+
+        if ($send_success) {
+            $_SESSION['error'] = array(
+                "error_type" => "success",
+                "error_title" => "Success",
+                "error_message" => "Email is successfully sent!"
+            );
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops...",
+                "error_message" => "There's an error while processing your request."
+            );
+        }
+
+        echo json_encode(true);
     }
 
     private function upload_image($image)

@@ -392,11 +392,11 @@ include_once "./application/views/templates/header.php";
     <!-- Contact Us -->
     <section class="bg-light" id="contact_us">
         <div class="container px-5">
-            <div class="h1 fs-1 text-center text-dark mb-5">Contact Us</div>
+            <div class="h1 fs-1 text-center text-dark mb-5">Your pleasure and well-being are our top priorities at MyClinicAppointment.</div>
 
             <div class="row gx-3 justify-content-center">
                 <div class="col-xl-6 mb-5">
-                    <div class="h5 fs-3 text-dark">Send us a Message</div>
+                    <div class="h5 fs-3 col-8 text-dark">Please share your thoughts and concerns with us so we can improve our service.</div>
                     <form id="contact_us_form" action="javascript:void(0)">
                         <div class="mb-3">
                             <label for="contact_us_name" class="form-label">Your Name</label>
@@ -415,7 +415,7 @@ include_once "./application/views/templates/header.php";
                 </div>
 
                 <div class="col-xl-6">
-                    <div class="h5 fs-3 text-dark">Visit us in Our Office</div>
+                    <div class="h5 fs-3 text-dark mb-5">Visit us!</div>
                     <div class="mt-3">
                         <?php if (!$isLocalhost) : ?>
                             <iframe class="w-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3858.3286187910985!2d121.1390722759424!3d14.750506773387253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397bbe8733338e5%3A0xc845d7b6001522e1!2sColegio%20de%20Montalban!5e0!3m2!1sen!2sph!4v1699791309462!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

@@ -75,8 +75,8 @@ include_once "./application/views/templates/header.php";
                             </td>
                             <td class="text-center">
                                 <div class="approve_reject_btn">
-                                    <i title="Approve Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
-                                    <i title="Reject Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                    <i title="Approve Appointment" application_id="<?= $appointment->id ?>"  data-bs-toggle="modal" data-bs-target="#appointment_approve" class="<?= $status == 'Pending' ? 'btn_appointments_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                    <i title="Reject Appointment" application_id="<?= $appointment->id ?>" data-bs-toggle="modal" data-bs-target="#appointment_deny" class="<?= $status == 'Pending' ? 'btn_appointments_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
                                 </div>
                                 <div class="d-none small_loader">
                                     <span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>

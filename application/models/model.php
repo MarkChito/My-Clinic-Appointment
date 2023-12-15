@@ -404,7 +404,7 @@ class model
         }
     }
 
-    function mod_update_doctor_useraccount_with_image_and_password($name, $email, $mobile_number, $username, $password, $image, $id)
+    function mod_update_doctor_useraccount_with_image_and_password($name, $email, $mobile_number, $username,  $password, $image, $id)
     {
         $query = "UPDATE `tbl_myclinicappointment_useraccounts` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_number` = '" . $mobile_number . "', `username` = '" . $username . "', `password` = '" . $password . "', `image` = '" . $image . "' WHERE `id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
@@ -452,9 +452,9 @@ class model
         }
     }
 
-    function mod_update_doctor($name, $email, $mobile_number, $payment, $specialization, $id)
+    function mod_update_doctor($name, $email, $date_of_birth, $gender, $mobile_number, $mode_of_payment, $payment, $specialization, $id)
     {
-        $query = "UPDATE `tbl_myclinicappointment_doctors` SET `name` = '" . $name . "', `email` = '" . $email . "', `mobile_num` = '" . $mobile_number . "', `payment` = '" . $payment . "', `specialization` = '" . $specialization . "' WHERE `useraccount_id` = '" . $id . "'";
+        $query = "UPDATE `tbl_myclinicappointment_doctors` SET `name` = '" . $name . "',`date_of_birth` = '" . $date_of_birth . "',`gender` = '" . $gender . "', `email` = '" . $email . "', `mobile_num` = '" . $mobile_number . "', `payment` = '" . $payment . "', `mode_of_payment` = '" . $mode_of_payment . "', `specialization` = '" . $specialization . "' WHERE `useraccount_id` = '" . $id . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result && $this->mysqli->affected_rows > 0) {
