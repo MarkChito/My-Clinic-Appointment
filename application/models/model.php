@@ -154,7 +154,7 @@ class model
 
     function mod_get_administrators_data()
     {
-        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `user_type` != 'doctor'";
+        $query = "SELECT * FROM `tbl_myclinicappointment_useraccounts` WHERE `user_type` != 'doctor' AND `id` != '" . $_SESSION['id'] . "'";
         $query_result = $this->mysqli->query($query);
 
         if ($query_result) {
@@ -515,7 +515,7 @@ class model
 
 class email
 {
-    function Send($name, $email, $subject, $message)
+    function Send($name, $email, $subject, $message, $file_attachment)
     {
         // Create a new PHPMailer instance
         $mail = new PHPMailer(true);
@@ -534,6 +534,15 @@ class email
             $mail->addAddress($email, $name);
             $mail->Subject = $subject;
             $mail->Body = $message;
+
+            if ($file_attachment) {
+                if (isset($file_attachment) && $file_attachment['error'] == UPLOAD_ERR_OK) {
+                    $file_name = $file_attachment['name'];
+                    $file_path = $file_attachment['tmp_name'];
+
+                    $mail->addAttachment($file_path, $file_name);
+                }
+            }
 
             // Send the email
             $mail->send();

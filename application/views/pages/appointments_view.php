@@ -28,7 +28,9 @@ include_once "./application/views/templates/header.php";
                     <th class="d-none">Reasons</th>
                     <th class="d-none">Payment Method</th>
                     <th>Status</th>
-                    <th class="text-center">Actions</th>
+                    <?php if ($_SESSION["usertype"] != "doctor") : ?>
+                        <th class="text-center">Actions</th>
+                    <?php endif ?>
                 </tr>
             </thead>
             <tbody>
@@ -59,29 +61,33 @@ include_once "./application/views/templates/header.php";
 
                         <tr>
                             <td class="last_name">
-                                <a title="View Details" href="javascript:void(0)" class="view_appointment_details" data-bs-toggle="modal" data-bs-target="#appointment_details">
-                                    <?= $appointment->last_name ?>
-                                </a>
+                                <a title="View Details" href="javascript:void(0)" class="view_appointment_details" data-bs-toggle="modal" data-bs-target="#appointment_details"><?= $appointment->last_name ?></a>
                             </td>
                             <td class="first_name"><?= $appointment->first_name ?></td>
                             <td class="email_address"><?= $appointment->email_address ?></td>
                             <td class="mobile_number"><?= $appointment->mobile_number ?></td>
-                            <td class="appointment_date"><?= $appointment->appointment_date ?></td>
+                            <td class="appointment_date"><?= date('F j, Y', strtotime($appointment->appointment_date)) ?></td>
                             <td class="contact_method"><?= $appointment->contact_method ?></td>
                             <td class="reasons d-none"><?= $appointment->reasons ?></td>
                             <td class="payment_method d-none"><?= $appointment->payment_method ?></td>
                             <td class="status">
                                 <span class="badge rounded-pill bg-<?= $badge_color ?>"><?= $status ?></span>
                             </td>
-                            <td class="text-center">
-                                <div class="approve_reject_btn">
-                                    <i title="Approve Appointment" application_id="<?= $appointment->id ?>"  data-bs-toggle="modal" data-bs-target="#appointment_approve" class="<?= $status == 'Pending' ? 'btn_appointments_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
-                                    <i title="Reject Appointment" application_id="<?= $appointment->id ?>" data-bs-toggle="modal" data-bs-target="#appointment_deny" class="<?= $status == 'Pending' ? 'btn_appointments_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
-                                </div>
-                                <div class="d-none small_loader">
-                                    <span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>
-                                </div>
-                            </td>
+                            <?php if ($_SESSION["usertype"] != "doctor") : ?>
+                                <td class="text-center">
+                                    <?php if ($status != "Approved") : ?>
+                                        <div class="approve_reject_btn">
+                                            <i title="Approve Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_approve' : null ?> fas fa-thumbs-up text-<?= $status == 'Pending' ? 'primary' : 'muted' ?> me-2" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                            <i title="Reject Appointment" application_id="<?= $appointment->id ?>" class="<?= $status == 'Pending' ? 'btn_appointments_reject' : null ?> fas fa-thumbs-down text-<?= $status == 'Pending' ? 'danger' : 'muted' ?>" role="<?= $status == 'Pending' ? 'button' : 'none' ?>"></i>
+                                        </div>
+                                    <?php else : ?>
+                                        <i class="fas fa-paper-plane text-primary appointment_send_email" role="button" data-bs-toggle="modal" data-bs-target="#appointment_approve" application_name="<?= $appointment->first_name." ".$appointment->last_name ?>" application_email="<?= $appointment->email_address ?>"></i>
+                                    <?php endif ?>
+                                    <div class="d-none small_loader">
+                                        <span class="spinner-border spinner-border-sm text-success" role="status" aria-hidden="true"></span>
+                                    </div>
+                                </td>
+                            <?php endif ?>
                         </tr>
                     <?php endforeach ?>
                 <?php endif ?>

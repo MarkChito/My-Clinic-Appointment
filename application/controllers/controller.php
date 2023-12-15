@@ -32,6 +32,10 @@ class controller
             if (isset($_POST['login'])) {
                 $this->login();
             }
+            
+            if (isset($_POST['administrator_login'])) {
+                $this->administrator_login();
+            }
 
             if (isset($_POST['logout'])) {
                 $this->logout();
@@ -85,8 +89,8 @@ class controller
                 $this->update_doctor();
             }
 
-            if (isset($_POST['doctor_send_email'])) {
-                $this->doctor_send_email();
+            if (isset($_POST['send_email'])) {
+                $this->send_email();
             }
         }
     }
@@ -180,7 +184,56 @@ class controller
             $db_password = $useraccount[0]->password;
             $db_usertype = $useraccount[0]->user_type;
 
-            if (password_verify($password, $db_password) && $username == $db_username) {
+            if (password_verify($password, $db_password) && ($username == $db_username) && ($db_usertype == "doctor")) {
+                $_SESSION['id'] = $db_id;
+                $_SESSION['usertype'] = $db_usertype;
+
+                $_SESSION['error'] = array(
+                    "error_type" => "success",
+                    "error_title" => "Success",
+                    "error_message" => "Login Successful!"
+                );
+
+                if ($remember_me == "on") {
+                    $_SESSION['username'] = $username;
+                    $_SESSION['password'] = $password;
+                } else {
+                    unset($_SESSION['username']);
+                    unset($_SESSION['password']);
+                }
+            } else {
+                $_SESSION['error'] = array(
+                    "error_type" => "error",
+                    "error_title" => "Oops..",
+                    "error_message" => "Invalid Username or Password!"
+                );
+            }
+        } else {
+            $_SESSION['error'] = array(
+                "error_type" => "error",
+                "error_title" => "Oops..",
+                "error_message" => "Invalid Username or Password!"
+            );
+        }
+
+        echo json_encode(true);
+    }
+
+    function administrator_login()
+    {
+        $username = $_POST['login_username'];
+        $password = $_POST['login_password'];
+        $remember_me = $_POST['login_remember_me'];
+
+        $useraccount = $this->model->mod_get_useraccount_data($username);
+
+        if ($useraccount) {
+            $db_id = $useraccount[0]->id;
+            $db_username = $useraccount[0]->username;
+            $db_password = $useraccount[0]->password;
+            $db_usertype = $useraccount[0]->user_type;
+
+            if (password_verify($password, $db_password) && ($username == $db_username) && ($db_usertype != "doctor")) {
                 $_SESSION['id'] = $db_id;
                 $_SESSION['usertype'] = $db_usertype;
 
@@ -699,14 +752,15 @@ class controller
         }
     }
 
-    function doctor_send_email()
+    function send_email()
     {
         $name = $_POST["name"];
         $email = $_POST["email"];
         $subject = $_POST["subject"];
         $message = str_replace("\n", "<br>", $_POST["message"]);
+        $attachment = isset($_FILES["attachment"]) ? $_FILES["attachment"] : null;
 
-        $send_success = $this->email->Send($name, $email, $subject, $message);
+        $send_success = $this->email->Send($name, $email, $subject, $message, $attachment);
 
         if ($send_success) {
             $_SESSION['error'] = array(
